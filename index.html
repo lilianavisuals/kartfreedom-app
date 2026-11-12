@@ -38,4 +38,21 @@
 <script type="text/babel" src="app/kf-billing.jsx"></script>
 <script type="text/babel" src="app/kf-sub.jsx"></script>
 <script type="text/babel" src="app/kf-main.jsx"></script>
+  <script>
+  const removeNetlifyBadge = () => {
+    document.querySelectorAll('iframe, div, aside').forEach((el) => {
+      const html = el.outerHTML.toLowerCase();
+      if (html.includes('netlify') && (html.includes('badge') || html.includes('powered'))) {
+        el.remove();
+      }
+    });
+  };
+
+  removeNetlifyBadge();
+  new MutationObserver(removeNetlifyBadge).observe(document.documentElement, {
+    childList: true,
+    subtree: true
+  });
+</script>
+
 </body></html>
