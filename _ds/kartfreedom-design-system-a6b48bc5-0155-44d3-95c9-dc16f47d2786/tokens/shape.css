@@ -1,0 +1,9 @@
+/* px versions of the unitless Stint FLOAT variables + elevation + motion from the Foundations board. */
+:root{
+--space-2:2px;--space-4:4px;--space-6:6px;--space-8:8px;--space-12:12px;--space-16:16px;--space-20:20px;--space-24:24px;--space-32:32px;--space-40:40px;--space-48:48px;
+--r-4:4px;--r-6:6px;--r-8:8px;--r-12:12px;--r-16:16px;--r-24:24px;--r-full:999px;
+--shadow-panel:0 0 0 1px var(--stroke-soft-200),0 8px 24px rgba(15,18,23,0.04);
+--shadow-callout:0 4px 12px rgba(15,18,23,0.03),0 1px 3px rgba(15,18,23,0.04);
+--ease-settle:cubic-bezier(0.22,1,0.36,1); /* @kind other */--ease-in-out:cubic-bezier(0.65,0,0.35,1); /* @kind other */--ease-linear:linear; /* @kind other */
+--dur-tick:240ms; /* @kind other */--dur-flash:400ms; /* @kind other */--dur-move:600ms; /* @kind other */--dur-draw:1400ms; /* @kind other */
+}

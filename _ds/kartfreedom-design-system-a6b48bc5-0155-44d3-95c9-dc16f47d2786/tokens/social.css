@@ -1,0 +1,24 @@
+/* Social / recap-cover system (Kartfreedom Practice Recap Cover). 1080×1350 feed canvas. Plum grounds, fluo #D7FF3A as the only hot accent, white type. */
+:root{
+--kf-plum-950:#0A0208;--kf-plum-900:#18061F;--kf-plum-800:#260A34;--kf-plum-700:#331248;--kf-plum-600:#501E6C;--kf-plum-500:#702F8E;--kf-plum-400:#8A46AC;--kf-plum-300:#9146B4;
+--kf-lilac-200:#D8B8EA;--kf-pink-link:#FF9AD8;
+--kf-fluo:#D7FF3A;
+--kf-white:#FFFFFF;--kf-text-body:rgba(255,255,255,0.88);--kf-text-muted:rgba(255,255,255,0.80);--kf-text-meta:rgba(255,255,255,0.78);
+--kf-line:rgba(255,255,255,0.12);--kf-line-card:rgba(255,255,255,0.13);--kf-line-media:rgba(255,255,255,0.16);--kf-line-strong:rgba(255,255,255,0.30);
+--kf-font-display:"AKONY","Michroma",sans-serif;--kf-font-body:"Montserrat",sans-serif;
+--kf-hero:76px;--kf-h1:70px;--kf-h2:56px;--kf-number:64px;--kf-h3:34px;--kf-h4:32px;--kf-lead:26px;--kf-body:23px;--kf-body-sm:20px;
+--kf-brand-label:22px;--kf-eyebrow:19px;--kf-label:16px;--kf-meta:17px;--kf-footer:19px;
+--kf-track-brand:0.30em;--kf-track-eyebrow:0.34em;--kf-track-label:0.26em;--kf-track-footer:0.20em;--kf-track-meta:0.14em;
+--kf-canvas-w:1080px;--kf-canvas-h:1350px;--kf-pad:78px 72px 72px;--kf-gap-section:44px;--kf-gap-grid:24px;--kf-radius:10px;--kf-rule-w:44px;
+--kf-ground:linear-gradient(168deg,#260a34 0%,#331248 40%,#18061f 100%); /* @kind other */
+--kf-glow-tl:radial-gradient(85% 45% at 4% 0%,rgba(145,70,180,0.34) 0%,rgba(145,70,180,0.06) 44%,rgba(0,0,0,0) 72%); /* @kind other */
+--kf-glow-br:radial-gradient(80% 45% at 100% 100%,rgba(112,47,142,0.42) 0%,rgba(80,30,108,0.12) 46%,rgba(0,0,0,0) 76%); /* @kind other */
+--kf-flare:radial-gradient(40% 22% at 88% 10%,rgba(255,255,255,0.36) 0%,rgba(255,255,255,0.08) 46%,rgba(255,255,255,0) 74%); /* @kind other */
+--kf-scanlines:repeating-linear-gradient(0deg,rgba(255,255,255,0.16) 0 1px,rgba(0,0,0,0.14) 1px 2px),repeating-linear-gradient(90deg,rgba(255,255,255,0.10) 0 1px,rgba(0,0,0,0.10) 1px 3px); /* @kind other */
+--kf-scanlines-opacity:0.10; /* @kind other */
+--kf-photo-protect:linear-gradient(180deg,rgba(24,6,31,0.66) 0%,rgba(24,6,31,0.34) 20%,rgba(24,6,31,0.14) 42%,rgba(24,6,31,0.52) 62%,rgba(24,6,31,0.90) 100%); /* @kind other */
+--kf-photo-filter:contrast(0.9) saturate(0.9) brightness(1.02); /* @kind other */
+--kf-card:linear-gradient(100deg,rgba(255,255,255,0.10) 0%,rgba(255,255,255,0.03) 70%); /* @kind other */
+--kf-card-highlight:linear-gradient(100deg,rgba(255,255,255,0.20) 0%,rgba(138,70,172,0.14) 70%,rgba(138,70,172,0.22) 100%); /* @kind other */
+--kf-brand-rule:linear-gradient(90deg,rgba(255,255,255,0.65),rgba(255,255,255,0)); /* @kind other */
+}
