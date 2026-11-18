@@ -1,0 +1,25 @@
+/* KartFreedom brand layer — loaded AFTER components/stint/fig-tokens.css.
+   Stint raw scales stay intact; this file adds the KartFreedom violet + fluo scales and
+   re-points Stint's semantic aliases (primary-*, dark surfaces) at them. */
+:root{
+--kf-violet-50:#F5EEF9;--kf-violet-100:#E9DAF2;--kf-violet-200:#D3B4E5;--kf-violet-400:#A25FC6;--kf-violet-500:#8A43B1;--kf-violet-600:#7A389E;--kf-violet-650:#6B2F8A;--kf-violet-700:#58256F;--kf-violet-900:#241030;--kf-violet-950:#14091B;
+--kf-orchid:#E879F9;
+--kf-fluo-50:#F7FFD6;--kf-fluo-200:#EEFF8A;--kf-fluo-500:#DFFF1F;--kf-fluo-600:#C4E000;--kf-fluo-700:#8FA300;--kf-fluo-900:#2B3300;
+--kf-ink-1000:#09060C;--kf-ink-950:#0E0A12;--kf-ink-900:#16111B;--kf-ink-850:#1D1723;--kf-ink-800:#272030;--kf-ink-700:#3A3045;--kf-ink-500:#6E6479;--kf-ink-450:#8F869A;--kf-ink-400:#A69EB0;
+--kf-gradient-mark:linear-gradient(90deg,#6B2F8A 0%,#E879F9 100%); /* @kind other */
+--kf-gradient-glow:radial-gradient(60% 60% at 50% 100%,rgba(138,67,177,0.55) 0%,rgba(20,9,27,0) 100%); /* @kind other */
+/* semantic re-points */
+--primary-base:var(--kf-violet-500);--primary-strong:var(--kf-violet-650);--primary-darker:var(--kf-violet-650);--primary-light:var(--kf-violet-200);--primary-lighter:var(--kf-violet-50);
+--accent-base:var(--kf-fluo-500);--accent-strong:var(--kf-fluo-700);--accent-lighter:var(--kf-fluo-50);--text-on-accent:var(--kf-ink-1000);
+/* aliases for consumers */
+--surface-canvas:var(--bg-canvas);--surface-panel:var(--bg-white-0);--surface-inset:var(--bg-weak-50);--surface-raised:var(--bg-soft-100);
+--text-body:var(--text-strong-950);--text-muted:var(--text-sub-600);--text-meta:var(--text-soft-400);
+}
+:root[data-theme="dark"],.dark{
+--primary-base:var(--kf-violet-500);--primary-strong:var(--kf-violet-650);--primary-darker:var(--kf-violet-200);--primary-light:var(--kf-violet-700);--primary-lighter:var(--kf-violet-900);
+--accent-base:var(--kf-fluo-500);--accent-strong:var(--kf-fluo-500);--accent-lighter:var(--kf-fluo-900);--text-on-accent:var(--kf-ink-1000);
+--bg-canvas:var(--kf-ink-950);--bg-white-0:var(--kf-ink-900);--bg-weak-50:var(--kf-ink-850);--bg-soft-100:var(--kf-ink-800);
+--stroke-soft-200:var(--kf-ink-800);--stroke-sub-300:var(--kf-ink-700);--text-soft-400:var(--kf-ink-450);--text-sub-600:var(--kf-ink-400);--icon-sub-600:var(--kf-ink-400);--text-white-0:var(--kf-ink-950);
+--surface-canvas:var(--bg-canvas);--surface-panel:var(--bg-white-0);--surface-inset:var(--bg-weak-50);--surface-raised:var(--bg-soft-100);
+--text-body:var(--text-strong-950);--text-muted:var(--text-sub-600);--text-meta:var(--text-soft-400);
+}

@@ -1,0 +1,36 @@
+/* Textures — from "50 Abstract posters/wallpapers (Part 2)". The pack's signature is a soft-light grain over gradient fields. */
+:root{
+--kf-grain-image:url('../assets/textures/grain-noise.png'); /* @kind other */
+--kf-grain-size:1280px 768px; /* @kind other */
+--kf-grain-fine-image:url('../assets/textures/grain-fine.png'); /* @kind other */
+--kf-carousel-gold:rgb(235,170,48); /* RLVNT carousel 'Gradient' variable */
+--kf-gradient-orb:linear-gradient(180deg,rgb(39,3,73) 0%,rgb(225,84,178) 100%); /* @kind other */
+--kf-gradient-orb-tilt:linear-gradient(185.315deg,rgb(39,3,73) 31.7%,rgb(225,84,178) 95.74%); /* @kind other */
+--kf-orb-highlight:rgb(255,55,196);
+--kf-orb-shade:rgba(37,3,72,0.8);
+}
+/* Grain overlay: add to any positioned surface. Source stacks the tile twice in soft-light. */
+.kf-grain{position:relative;isolation:isolate}
+.kf-grain::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;background:var(--kf-grain-image) top left/var(--kf-grain-size) repeat,var(--kf-grain-image) top left/var(--kf-grain-size) repeat;mix-blend-mode:soft-light;z-index:1}
+
+/* From "Gradients, Textures, Backgrounds (Community)": riso overlays, soft noise, fractal glass. */
+:root{
+--kf-riso-image:url('../assets/textures/riso.jpg'); /* @kind other */
+--kf-riso-size:336.896px 449.194px; /* @kind other */
+--kf-noise-soft-image:url('../assets/textures/noise-soft.png'); /* @kind other */
+--kf-plastic-image:url('../assets/textures/plastic.png'); /* @kind other */
+/* glass blur: source value at 1080×1920; scale down (~16–24px) for small surfaces */
+--kf-glass-blur:180px; /* @kind other */
+--kf-glass-rib:77.143px; /* @kind other */
+--kf-glass-sheen:linear-gradient(270deg,rgba(255,255,255,0.0075) -20%,rgba(40,40,40,0.0934) 75.76%,rgba(255,255,255,0.0075) 123.64%); /* @kind other */
+}
+/* Riso: source lays the texture at 80% opacity, soft-light, over a flat fill. */
+.kf-riso{position:relative;isolation:isolate}
+.kf-riso::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;background:var(--kf-riso-image) top left/var(--kf-riso-size) repeat;opacity:.8;mix-blend-mode:soft-light;z-index:1}
+/* Soft noise: 1402px tile, soft-light. */
+.kf-noise{position:relative;isolation:isolate}
+.kf-noise::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;background:var(--kf-noise-soft-image) top left/1402px 1402px repeat;mix-blend-mode:soft-light;z-index:1}
+/* Fractal glass: repeat vertical ribs (source: 77.143px wide, plastic 832px tile + 270deg sheen, backdrop blur 180px). Put .kf-glass-ribs over a gradient/glow. */
+.kf-glass-ribs{position:absolute;inset:0;display:flex;overflow:hidden;pointer-events:none}
+.kf-glass-ribs>i{position:relative;flex:0 0 var(--kf-glass-rib);height:100%;background:var(--kf-glass-sheen);box-shadow:inset -1px 0 rgba(255,255,255,.08);backdrop-filter:blur(var(--kf-glass-blur));-webkit-backdrop-filter:blur(var(--kf-glass-blur))}
+.kf-glass-ribs>i::after{content:"";position:absolute;inset:0;background:var(--kf-plastic-image) top left/832px 832px repeat;mix-blend-mode:overlay;opacity:.2}
