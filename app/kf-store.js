@@ -26,11 +26,16 @@ window.KFDB = (function () {
   let ch = false;
   if (!s.academy) { s.academy = JSON.parse(JSON.stringify(AC0)); ch = true; }
   if (!s.users[HQ]) { s.users[HQ] = { ...KF.users[HQ], status: "active" }; ch = true; }
-  Object.values(s.channels || {}).forEach(c => { if (!c.who.includes("manager")) { c.who.push("manager"); ch = true; } });
+  Object.values(s.channels || {}).forEach(c => { ["manager", "office"].forEach(r => { if (!c.who.includes(r)) { c.who.push(r); ch = true; } }); });
   if (!s.payments) { s.payments = seedBilling(s.users); ch = true; }
   if (!s.membership) { s.membership = { monthly: { label: "Monthly", rate: KF.membership.rate }, yearly: { label: "Yearly", rate: KF.membership.rate * 10 } }; ch = true; }
   if (!s.stripe) { s.stripe = { links: {}, portal: "" }; ch = true; }
   if (!s.requests) { s.requests = []; ch = true; }
+  if (!s.users["member:000003"]) { s.users["member:000003"] = { ...KF.users["member:000003"], status: "active" }; ch = true; }
+  if (s.users["member:000003"] && s.users["member:000003"].cls === "Gift certificates") { s.users["member:000003"].cls = "Manager"; ch = true; }
+  if (!s.gifts) { ch = true; const iso = t => new Date(t).toLocaleDateString("en-CA");
+   s.gifts = [{ id: uid(), seq: 1, year: 2026, no: "KF-GC-2026-001", pkg: "ka100-1", ed: "night", to: "Mia Torres", from: "Love, Mom & Dad", issued: iso(now - 40 * day), buyer: { name: "Elena Torres", email: "elena.torres@example.com", phone: "(904) 555-0147" }, ordered: iso(now - 41 * day), paid: "", days: [iso(now - 12 * day)], note: "", by: HQ, at: now - 40 * day },
+    { id: uid(), seq: 2, year: 2026, no: "KF-GC-2026-002", pkg: "lo206-1", ed: "night", to: "Cooper Gardnes", from: "With love, Lulu & Dede", issued: iso(now), buyer: { name: "Lulu Gardnes", email: "", phone: "" }, ordered: iso(now), paid: "", days: [], note: "", by: HQ, at: now }]; }
   if (!s.mig3) { s.mig3 = 1; ch = true; delete s.stripe; const yr = 365 * day;
    s.membership = { yearly: { label: "Yearly", rate: KF.membership.rate } }; s.payments = {};
    Object.entries(s.users).forEach(([k, u]) => {

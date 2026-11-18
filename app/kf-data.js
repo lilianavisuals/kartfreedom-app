@@ -10,6 +10,7 @@ const users = {
  "academy:270002": { type:"academy", id:"KFA-27-0002", name:"Avery Cole", first:"Avery", cls:"KA100 Jr", since:"2026", valid:"Lifetime", photo:null },
  "member:000001": { type:"staff", role:"owner", id:"KF-00-0001", name:"Eugene Panenko", first:"Eugene", cls:"Coach · Owner", since:"2020", valid:"Staff", photo:null },
  "member:000002": { type:"staff", role:"manager", id:"KF-00-0002", name:"KartFreedom HQ", first:"HQ", cls:"Owner · Media", since:"2020", valid:"Staff", photo:null },
+ "member:000003": { type:"staff", role:"office", id:"KF-00-0003", name:"Daria", first:"Daria", cls:"Manager", since:"2026", valid:"Staff", photo:null },
  "member:270003": { type:"member", id:"KF-27-0003", name:"Rizvan Choudhry", first:"Rizvan", cls:"Micro", since:"2026", valid:"12 / 27", photo:null, coach:"Eugene" },
  "member:270004": { type:"member", id:"KF-27-0004", name:"Emmanuel", first:"Emmanuel", cls:"Shifter", since:"2026", valid:"12 / 27", photo:null, coach:"Eugene" },
  "member:270005": { type:"member", id:"KF-27-0005", name:"Alexander", first:"Alexander", cls:"X30 Sr", since:"2026", valid:"12 / 27", photo:null, coach:"Eugene" },
@@ -102,13 +103,16 @@ const chat = {
 };
 // Access levels. rank decides who can manage whom; can[] lists features.
 const roles = {
- owner:{ label:"Owner · Coach", rank:5, can:["admin","coach","roster","academy","academy:edit","media","billing","chat:all"] },
- manager:{ label:"Owner · Media", rank:5, can:["admin","roster","academy","academy:edit","media","billing","chat:all"] },
+ owner:{ label:"Owner · Coach", rank:5, can:["admin","coach","roster","academy","academy:edit","media","billing","chat:all","gifts"] },
+ manager:{ label:"Owner · Media", rank:5, can:["admin","roster","academy","academy:edit","media","billing","chat:all","gifts"] },
  coach:{ label:"Coach", rank:4, can:["coach","roster","academy","academy:edit","media","chat:all"] },
  staff:{ label:"Team staff", rank:3, can:["roster","academy","chat:all"] },
+ office:{ label:"Manager", rank:5, can:["admin","roster","academy","media","billing","chat:all","gifts"] },
  member:{ label:"Member", rank:2, can:["dashboard","photos"] },
  academy:{ label:"Academy", rank:1, can:[] }
 };
 const membership = { label:"Membership", rate:777, per:"yr" }; // yearly membership, paid by Zelle
-return { roles, membership, plans, setup, chat, pass, users, coachNotes, skills, sessions, upcoming, photos, modules, allLessons };
+// Arrive & Drive gift certificate packages
+const gifts = { "lo206-1":{ eng:"LO206", st:"4-stroke", d:1 }, "lo206-2":{ eng:"LO206", st:"4-stroke", d:2 }, "ka100-1":{ eng:"KA100", st:"2-stroke", d:1 }, "ka100-2":{ eng:"KA100", st:"2-stroke", d:2 } };
+return { roles, membership, gifts, plans, setup, chat, pass, users, coachNotes, skills, sessions, upcoming, photos, modules, allLessons };
 })();

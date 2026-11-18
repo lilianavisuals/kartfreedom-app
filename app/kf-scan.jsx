@@ -110,7 +110,7 @@ function ScanScreen({ onEnter }) {
    </div>
    <div className="kf-stack g12">
     <button className="kf-btn solid" onClick={startCam}><KIcon n="camera" s={18}></KIcon>Start camera</button>
-    <button className="kf-btn" onClick={() => setPhase("manual")}><KIcon n="keys" s={18}></KIcon>Enter Academy ID</button>
+    <button className="kf-btn" onClick={() => setPhase("manual")}><KIcon n="keys" s={18}></KIcon>Enter login ID</button>
    </div>
    <button className="kf-card kf-dlrow kf-buyrow" onClick={() => setPhase("buy")}><KIcon n="cap"></KIcon><div><b>No ID? Get the Academy</b><small>For drivers who aren't members · from {kfMoney(KF.plans.monthly.regular)}/mo</small></div><KIcon n="right" s={18}></KIcon></button>
    {!KF_LIVE && <div className="kf-stack g10">
@@ -121,11 +121,11 @@ function ScanScreen({ onEnter }) {
   {phase === "buy" && <GuestBuyView onBack={() => setPhase("start")}></GuestBuyView>}
   {phase === "manual" && <form className="kf-start" onSubmit={submitManual}>
    <div className="kf-stack">
-    <span className="kf-eyebrow" style={{ color: "var(--orchid)" }}>Academy drivers</span>
+    <span className="kf-eyebrow" style={{ color: "var(--orchid)" }}>Sign in</span>
     <h1 className="kf-h1">Enter your<br></br><em>login ID</em></h1>
-    <p className="kf-lead">The KFA number the team sent you. Members sign in by scanning their printed card.</p>
+    <p className="kf-lead">Your KF, KFA or owner ID (KF-00-…). Members can also scan their printed card.</p>
    </div>
-   <label className="kf-field"><span className="kf-lbl">Academy login ID</span><input value={manual} onChange={e => setManual(e.target.value)} placeholder="KFA-27-0002" autoCapitalize="characters" autoComplete="off" spellCheck="false"></input>{mErr && <small>{mErr}</small>}</label>
+   <label className="kf-field"><span className="kf-lbl">Login ID</span><input value={manual} onChange={e => setManual(e.target.value)} placeholder="KFA-27-0002" autoCapitalize="characters" autoComplete="off" spellCheck="false"></input>{mErr && <small>{mErr}</small>}</label>
    <div className="kf-stack g12"><button className="kf-btn solid" type="submit">Verify</button><button className="kf-btn ghost" type="button" onClick={() => setPhase("start")}>Back to scan</button></div>
   </form>}
   <KSheet open={!!hit} onClose={reset}>
@@ -168,6 +168,7 @@ function SetupScreen() {
    <div className="kf-card kf-stack g12"><span className="kf-lbl lilac">KF-00-0002 · Owner · Media</span>
     <label className="kf-field"><span className="kf-lbl">Account name</span><input value={f.hq} onChange={e => setF({ ...f, hq: e.target.value })}></input></label>
     <div className="kf-g2"><label className="kf-field"><span className="kf-lbl">Passcode · 8+ digits</span><input type="password" inputMode="numeric" value={f.h1} onChange={P("h1")}></input></label><label className="kf-field"><span className="kf-lbl">Repeat</span><input type="password" inputMode="numeric" value={f.h2} onChange={P("h2")}></input></label></div></div>
+   {!ok && <p className="kf-warn">{!f.hq.trim() ? "Add an account name." : f.e1.length < 8 ? "Eugene's passcode needs 8 or more digits." : f.e1 !== f.e2 ? "Eugene's two passcodes don't match." : f.h1.length < 8 ? "Your passcode needs 8 or more digits." : f.h1 !== f.h2 ? "Your two passcodes don't match." : "Use a different passcode for each account."}</p>}
    {err && <p className="kf-warn">{err}</p>}
    <button className="kf-btn solid" disabled={!ok || busy}>{busy ? "Setting up…" : "Create owner accounts"}</button>
    <p className="kf-hint">You'll be signed in as KF-00-0002. Eugene signs in by scanning his card (or KF-00-0001) with his passcode.</p>

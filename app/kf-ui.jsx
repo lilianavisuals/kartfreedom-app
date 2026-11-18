@@ -83,6 +83,6 @@ function kfPick(accept, multi) {
  return new Promise(res => { const i = document.createElement("input"); i.type = "file"; i.accept = accept; i.multiple = !!multi; i.onchange = () => res([...i.files]); i.click(); });
 }
 const kfCan = (u, p) => !!u && (KF.roles[u.role] || {}).can && KF.roles[u.role].can.includes(p);
-const kfStaff = u => !!u && ["owner", "manager", "coach", "staff"].includes(u.role);
+const kfStaff = u => !!u && ["owner", "manager", "coach", "staff", "office"].includes(u.role);
 
 Object.assign(window, { useDB, KAvatar, kfAgo, kfDate, KMedia, kfDownload, kfPick, kfCan, kfStaff, kfInit, useStateK, useEffectK, useRefK, KIcon, KHeader, KCard, KSheet, KBar, kfBars });

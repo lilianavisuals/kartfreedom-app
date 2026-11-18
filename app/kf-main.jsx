@@ -1,12 +1,13 @@
 const KF_UI = "kfui.v1";
 const kfQS = new URLSearchParams(location.search);
-const KF_AS = KF_LIVE ? undefined : { member: "member:270001", academy: "academy:270002", coach: "member:000001", owner: "member:000001", manager: "member:000002" }[kfQS.get("as")];
+const KF_AS = KF_LIVE ? undefined : { member: "member:270001", academy: "academy:270002", coach: "member:000001", owner: "member:000001", manager: "member:000002", daria: "member:000003" }[kfQS.get("as")];
 const KF_SCAN = kfQS.get("as") === "scan", KF_TAB = kfQS.get("tab");
 const kfLoadUI = () => { try { return JSON.parse(sessionStorage.getItem(KF_UI)) || {}; } catch (e) { return {}; } };
 const KF_DBKEYS = ["owned", "done", "quiz", "req"];
 const KF_TABS = {
- owner: [["drivers", "Drivers", "users"], ["chat", "Chat", "chat"], ["academy", "Academy", "cap"], ["billing", "Payments", "card"], ["team", "Accounts", "shield"]],
- manager: [["drivers", "Drivers", "users"], ["billing", "Payments", "card"], ["team", "Accounts", "shield"], ["academy", "Academy", "cap"], ["chat", "Chat", "chat"]],
+ owner: [["drivers", "Drivers", "users"], ["chat", "Chat", "chat"], ["academy", "Academy", "cap"], ["billing", "Payments", "card"], ["gifts", "Gift cards", "award"], ["team", "Accounts", "shield"]],
+ manager: [["drivers", "Drivers", "users"], ["billing", "Payments", "card"], ["gifts", "Gift cards", "award"], ["team", "Accounts", "shield"], ["academy", "Academy", "cap"], ["chat", "Chat", "chat"]],
+ office: [["drivers", "Drivers", "users"], ["billing", "Payments", "card"], ["gifts", "Gift cards", "award"], ["team", "Accounts", "shield"], ["academy", "Academy", "cap"], ["chat", "Chat", "chat"]],
  coach: [["drivers", "Drivers", "users"], ["chat", "Chat", "chat"], ["academy", "Academy", "cap"]],
  staff: [["drivers", "Drivers", "users"], ["chat", "Chat", "chat"], ["academy", "Academy", "cap"]],
  member: [["home", "Home", "home"], ["progress", "Progress", "trend"], ["photos", "Photos", "image"], ["academy", "Academy", "cap"], ["chat", "Chat", "chat"]],
@@ -62,7 +63,7 @@ function KFApp() {
  const body = tab === "home" ? (isMem ? <MemberHome ctx={ctx}></MemberHome> : <AcademyHome ctx={ctx}></AcademyHome>)
   : tab === "drivers" ? <RosterTab ctx={ctx}></RosterTab> : tab === "team" ? <TeamTab ctx={ctx}></TeamTab>
   : tab === "progress" ? <ProgressTab ctx={ctx}></ProgressTab> : tab === "photos" ? <PhotosTab ctx={ctx}></PhotosTab>
-  : tab === "billing" ? <BillingTab ctx={ctx}></BillingTab>
+  : tab === "billing" ? <BillingTab ctx={ctx}></BillingTab> : tab === "gifts" ? <GiftsTab ctx={ctx}></GiftsTab>
   : tab === "academy" ? <AcademyTab ctx={ctx}></AcademyTab> : <ChatTab ctx={ctx}></ChatTab>;
  const top = ui.stack[ui.stack.length - 1];
  const V = top && ({ store: StoreView, checkout: CheckoutView, lesson: LessonView, quiz: QuizView, cert: CertView, id: IdView, join: JoinView, coach: CoachView, driver: DriverView, topicedit: TopicEditView, examedit: ExamEditView, sub: SubView })[top.t];

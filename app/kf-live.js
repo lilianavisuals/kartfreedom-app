@@ -10,14 +10,14 @@
 
  const sb = supabase.createClient(C.supabaseUrl, C.supabaseKey, { auth: { persistSession: true, storageKey: "kf.auth" } });
  const email = (id, v) => id.toLowerCase() + "-" + (v || 1) + "@login.kartfreedom.app";
- const blank = () => ({ v: 0, users: {}, notes: {}, skills: {}, sessions: {}, setup: {}, folders: {}, photos: {}, channels: {}, msgs: {}, reads: {}, academy: JSON.parse(JSON.stringify(demo.AC0)), owned: {}, done: {}, quiz: {}, req: {}, requests: [], payments: {}, membership: { yearly: { label: "Yearly", rate: KF.membership.rate } }, reminders: {} });
+ const blank = () => ({ v: 0, users: {}, notes: {}, skills: {}, sessions: {}, setup: {}, folders: {}, photos: {}, channels: {}, msgs: {}, reads: {}, academy: JSON.parse(JSON.stringify(demo.AC0)), owned: {}, done: {}, quiz: {}, req: {}, requests: [], payments: {}, membership: { yearly: { label: "Yearly", rate: KF.membership.rate } }, reminders: {}, gifts: [] });
  let state = blank(), me = null, ch = null, rt = null, chain = Promise.resolve();
  const subs = new Set(), emit = () => subs.forEach(f => f(state));
  ["modules", "pass", "plans"].forEach(k => Object.defineProperty(KF, k, { configurable: true, get: () => state.academy[k] }));
  let lc = null;
  Object.defineProperty(KF, "allLessons", { configurable: true, get: () => { if (lc && lc.m === state.academy.modules) return lc.l; const l = state.academy.modules.flatMap(m => m.lessons.map(x => ({ ...x, m: m.id, mt: m.t }))); lc = { m: state.academy.modules, l }; return l; } });
 
- const T = [["profiles", ["key"]], ["profile_private", ["key"]], ["channels", ["id"]], ["academy", ["id"]], ["settings", ["id"]], ["notes", ["id"]], ["driver_data", ["driver"]], ["folders", ["id"]], ["media", ["id"]], ["messages", ["id"]], ["reads", ["key", "conv"]], ["progress", ["key"]], ["access", ["key"]], ["requests", ["id"]], ["payments", ["id"]]];
+ const T = [["profiles", ["key"]], ["profile_private", ["key"]], ["channels", ["id"]], ["academy", ["id"]], ["settings", ["id"]], ["notes", ["id"]], ["driver_data", ["driver"]], ["folders", ["id"]], ["media", ["id"]], ["messages", ["id"]], ["reads", ["key", "conv"]], ["progress", ["key"]], ["access", ["key"]], ["requests", ["id"]], ["payments", ["id"]], ["gift_certs", ["id"]]];
  const PK = Object.fromEntries(T);
  function toRows(s) {
   const o = {}; T.forEach(([t]) => o[t] = {});
@@ -39,6 +39,7 @@
   (s.requests || []).forEach(r => put("requests", { id: r.id, kind: r.kind, plan: r.plan, renew: !!r.renew, from_key: r.from || null, guest: r.guest || null, price: +r.price || 0, at: r.at || 0, status: r.status || "open", by_key: r.by || null, made: r.made || null, done: r.done || null }));
   Object.entries(s.payments || {}).forEach(([d, l]) => l.forEach(p => put("payments", { id: p.id, driver: d, at: p.at || 0, amt: +p.amt || 0, what: p.what || null, method: p.method || null, status: p.status || "paid", by_key: p.by || null })));
   if (s._set) put("settings", { id: 1, membership: s.membership || {}, reminders: s.reminders || {} });
+  (s.gifts || []).forEach(g => put("gift_certs", { id: g.id, seq: g.seq, year: g.year, no: g.no, pkg: g.pkg, ed: g.ed || "night", to_name: g.to || "", from_name: g.from || "", issued: g.issued || null, buyer: g.buyer || {}, ordered: g.ordered || null, paid: g.paid || null, days: g.days || [], note: g.note || "", by_key: g.by || null, at: g.at || 0 }));
   return o;
  }
  function fromRows(R) {
@@ -59,6 +60,7 @@
   s.requests = R.requests.sort((a, b) => b.at - a.at).map(r => ({ id: r.id, kind: r.kind, plan: r.plan, renew: r.renew, from: r.from_key, guest: r.guest, price: +r.price, at: +r.at, status: r.status, by: r.by_key, made: r.made, done: n(r.done) }));
   R.payments.sort((a, b) => b.at - a.at).forEach(r => push(s.payments, r.driver, { id: r.id, at: +r.at, amt: +r.amt, what: r.what, method: r.method, status: r.status, by: r.by_key }));
   if (R.settings[0]) { s.membership = R.settings[0].membership || s.membership; s.reminders = R.settings[0].reminders || {}; s._set = 1; }
+  s.gifts = (R.gift_certs || []).map(r => ({ id: r.id, seq: r.seq, year: r.year, no: r.no, pkg: r.pkg, ed: r.ed, to: r.to_name, from: r.from_name, issued: r.issued, buyer: r.buyer || {}, ordered: r.ordered, paid: r.paid, days: r.days || [], note: r.note, by: r.by_key, at: +r.at }));
   return s;
  }
  async function reload() {

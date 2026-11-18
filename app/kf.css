@@ -576,3 +576,14 @@ a.kf-btn{text-decoration:none}
  .kf-roster{grid-template-columns:repeat(3,minmax(0,1fr))}
  .kf-folders{grid-template-columns:repeat(4,minmax(0,1fr))}
 }
+
+/* gift certificates */
+.kf-gprev{width:100%;aspect-ratio:2400/1860;border-radius:12px;overflow:hidden;border:1px solid var(--hair);background:#0c0310}
+.kf-gprev iframe{width:100%;height:100%;border:0;display:block}
+.kf-gpk{display:flex;flex-wrap:wrap;gap:8px}
+.kf-gpk .kf-pill{height:38px}
+.kf-gift>div small{color:var(--t2)}
+.kf-gift .kf-gmeta{color:var(--t3);font-size:12.5px}
+.kf-gift .kf-pill{flex:none;display:inline-flex;align-items:center}
+.kf-gift{gap:12px}.kf-gift .kf-icbtn{flex:none;margin:0}
+.kf-gform .kf-inline input{flex:1 1 140px}
