@@ -42,7 +42,7 @@ function GiftSheet({ ctx, id, onClose }) {
   <div className="kf-g2"><label className="kf-field"><span className="kf-lbl">To</span><input value={f.to} onChange={e => up({ to: e.target.value })} placeholder="Recipient's name"></input></label>
    <label className="kf-field"><span className="kf-lbl">From</span><input value={f.from} onChange={e => up({ from: e.target.value })} placeholder="With love, …"></input></label></div>
   <div className="kf-g2"><label className="kf-field"><span className="kf-lbl">Issued</span><input type="date" value={f.issued} onChange={e => up({ issued: e.target.value })}></input></label>
-   <label className="kf-field"><span className="kf-lbl">Design</span><div className="kf-seg wide">{[["night", "Night · plum"], ["paddock", "Paddock · ivory"]].map(([k, l]) => <button type="button" key={k} className={f.ed === k ? "on" : ""} onClick={() => up({ ed: k })}>{l}</button>)}</div></label></div>
+   </div>
   <span className="kf-lbl" style={{ marginTop: 8 }}>Ordered by</span>
   <div className="kf-g2"><label className="kf-field"><span className="kf-lbl">Name</span><input value={f.buyer.name} onChange={e => upB({ name: e.target.value })}></input></label>
    <label className="kf-field"><span className="kf-lbl">Order date</span><input type="date" value={f.ordered} onChange={e => up({ ordered: e.target.value })}></input></label></div>

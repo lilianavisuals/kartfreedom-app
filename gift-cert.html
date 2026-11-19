@@ -104,11 +104,11 @@ function back(d,p,iv){const two=p.d>1;return `<section class="gc bk${iv?" iv":""
 <div class="fld iss"><div><span class="k">Issued</span><span class="hw">${esc(d.issued)}</span></div></div><div class="vr"></div>
 <div class="bk-r"><span class="eb">Included</span><div class="inc"><div><b>01</b><span>Race-ready ${p.eng} kart</span></div><div><b>02</b><span>Professional coaching</span></div><div><b>03</b><span>Fuel &amp; maintenance</span></div><div><b>04</b><span>Trackside support</span></div></div>
 <p class="rd"><strong>To redeem</strong> · Book via kartfreedom.us and quote your certificate number. No kart or experience required.</p></div>
-<div class="tc"><span>No expiry date · Non-refundable · Not exchangeable for cash · Subject to track availability</span><span class="v" style="font-size:16px">Nº ${esc(d.no)}</span></div>
-<div class="perf" style="right:auto;left:300px"></div><div class="stub" style="right:auto;left:0;justify-content:center"><div class="ofs"><span class="lb">Office use</span><div><span class="k">Redeemed</span></div><div><span class="k">Coach</span></div></div></div></section>`;}
+<div class="tc"><span>Non-refundable · Not exchangeable for cash · Subject to track availability</span><span class="v" style="font-size:16px">Nº ${esc(d.no)}</span></div>
+<div class="perf" style="right:auto;left:300px"></div><div class="stub" style="right:auto;left:0;justify-content:center"></div></section>`;}
 function fit(){document.querySelectorAll(".tf div,.fld div").forEach(row=>{const h=row.querySelector(".hw");if(!h)return;h.style.fontSize="";let s=parseFloat(getComputedStyle(h).fontSize);const room=()=>row.clientWidth-(row.querySelector(".k")?row.querySelector(".k").offsetWidth+30:0);while(h.offsetWidth>room()&&s>28){s-=2;h.style.fontSize=s+"px";}});
  if(MODE==="embed")document.body.style.setProperty("--fit",innerWidth/768);}
-function kfRender(d){const p=PK[d.pkg]||PK["lo206-1"],iv=d.ed==="paddock";
+function kfRender(d){const p=PK[d.pkg]||PK["lo206-1"],iv=false;
  document.getElementById("pages").innerHTML=`<div class="page">${front(d,p,iv)}</div><div class="page">${back(d,p,iv)}</div>`;
  document.title=(d.no||"Gift certificate")+(d.to?" · "+d.to:"");document.getElementById("no").textContent=d.no||"";document.getElementById("sub").textContent=[d.to,p.eng+" · "+p.d+" day"+(p.d>1?"s":"")].filter(Boolean).join(" · ");
  document.fonts.ready.then(fit);}
