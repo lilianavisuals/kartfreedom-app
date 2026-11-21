@@ -6,9 +6,11 @@ const kfLoadUI = () => { try { return JSON.parse(sessionStorage.getItem(KF_UI)) 
 const KF_DBKEYS = ["owned", "done", "quiz", "req"];
 const KF_TABS = {
  owner: [["drivers", "Drivers", "users"], ["chat", "Chat", "chat"], ["academy", "Academy", "cap"], ["billing", "Payments", "card"], ["gifts", "Gift cards", "award"], ["team", "Accounts", "shield"]],
- manager: [["drivers", "Drivers", "users"], ["billing", "Payments", "card"], ["gifts", "Gift cards", "award"], ["team", "Accounts", "shield"], ["academy", "Academy", "cap"], ["chat", "Chat", "chat"]],
+ manager: [["drivers", "Drivers", "users"], ["billing", "Payments", "card"], ["gifts", "Gift cards", "award"], ["ids", "ID cards", "id"], ["team", "Accounts", "shield"], ["academy", "Academy", "cap"], ["chat", "Chat", "chat"]],
  office: [["drivers", "Drivers", "users"], ["billing", "Payments", "card"], ["gifts", "Gift cards", "award"], ["team", "Accounts", "shield"], ["academy", "Academy", "cap"], ["chat", "Chat", "chat"]],
  coach: [["drivers", "Drivers", "users"], ["chat", "Chat", "chat"], ["academy", "Academy", "cap"]],
+ mechanic: [["drivers", "Drivers", "users"], ["chat", "Chat", "chat"], ["academy", "Academy", "cap"]],
+ coachmech: [["drivers", "Drivers", "users"], ["chat", "Chat", "chat"], ["academy", "Academy", "cap"]],
  staff: [["drivers", "Drivers", "users"], ["chat", "Chat", "chat"], ["academy", "Academy", "cap"]],
  member: [["home", "Home", "home"], ["progress", "Progress", "trend"], ["photos", "Photos", "image"], ["academy", "Academy", "cap"], ["chat", "Chat", "chat"]],
  academy: [["home", "Home", "home"], ["academy", "Academy", "cap"], ["chat", "Chat", "chat"], ["progress", "Progress", "trend", 1], ["photos", "Photos", "image", 1]]
@@ -64,7 +66,7 @@ function KFApp() {
   : tab === "drivers" ? <RosterTab ctx={ctx}></RosterTab> : tab === "team" ? <TeamTab ctx={ctx}></TeamTab>
   : tab === "progress" ? <ProgressTab ctx={ctx}></ProgressTab> : tab === "photos" ? <PhotosTab ctx={ctx}></PhotosTab>
   : tab === "billing" ? <BillingTab ctx={ctx}></BillingTab> : tab === "gifts" ? <GiftsTab ctx={ctx}></GiftsTab>
-  : tab === "academy" ? <AcademyTab ctx={ctx}></AcademyTab> : <ChatTab ctx={ctx}></ChatTab>;
+  : tab === "ids" ? <iframe className="kf-idframe" src="id-maker.html" title="ID cards"></iframe> : tab === "academy" ? <AcademyTab ctx={ctx}></AcademyTab> : <ChatTab ctx={ctx}></ChatTab>;
  const top = ui.stack[ui.stack.length - 1];
  const V = top && ({ store: StoreView, checkout: CheckoutView, lesson: LessonView, quiz: QuizView, cert: CertView, id: IdView, join: JoinView, coach: CoachView, driver: DriverView, topicedit: TopicEditView, examedit: ExamEditView, sub: SubView })[top.t];
  const hdr = tab === "home" ? (isMem ? "Driver dashboard" : "Academy dashboard") : tabs.find(t => t[0] === tab)[1];

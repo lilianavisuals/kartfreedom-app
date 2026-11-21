@@ -104,8 +104,10 @@ const chat = {
 // Access levels. rank decides who can manage whom; can[] lists features.
 const roles = {
  owner:{ label:"Owner · Coach", rank:5, can:["admin","coach","roster","academy","academy:edit","media","billing","chat:all","gifts"] },
- manager:{ label:"Owner · Media", rank:5, can:["admin","roster","academy","academy:edit","media","billing","chat:all","gifts"] },
+ manager:{ label:"Owner · Media", rank:5, can:["admin","roster","academy","academy:edit","media","billing","chat:all","gifts","ids"] },
  coach:{ label:"Coach", rank:4, can:["coach","roster","academy","academy:edit","media","chat:all"] },
+ mechanic:{ label:"Mechanic", rank:3, can:["roster","academy","chat:all"] },
+ coachmech:{ label:"Coach · Mechanic", rank:4, can:["coach","roster","academy","academy:edit","media","chat:all"] },
  staff:{ label:"Team staff", rank:3, can:["roster","academy","chat:all"] },
  office:{ label:"Manager", rank:5, can:["admin","roster","academy","media","billing","chat:all","gifts"] },
  member:{ label:"Member", rank:2, can:["dashboard","photos"] },

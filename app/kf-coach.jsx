@@ -2,7 +2,7 @@
 const kfAcadFor = (db, k) => kfAcademyStats({ quiz: db.quiz[k] || {} });
 const kfDrivers = db => Object.entries(db.users).filter(([, u]) => u.role === "member" || u.role === "academy");
 const KF_TONES = [["success", "Gaining"], ["warning", "Watch"], ["info", "Info"], ["danger", "Issue"]];
-const KF_ROLECHIP = { owner: "accent", manager: "accent", coach: "accent", staff: "info", member: "success", academy: "warning" };
+const KF_ROLECHIP = { owner: "accent", manager: "accent", coach: "accent", coachmech: "accent", mechanic: "info", staff: "info", member: "success", academy: "warning" };
 
 function RosterTab({ ctx }) {
  const db = useDB(), [q, setQ] = useStateK(""), [f, setF] = useStateK("all");

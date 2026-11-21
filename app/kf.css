@@ -587,3 +587,5 @@ a.kf-btn{text-decoration:none}
 .kf-gift .kf-pill{flex:none;display:inline-flex;align-items:center}
 .kf-gift{gap:12px}.kf-gift .kf-icbtn{flex:none;margin:0}
 .kf-gform .kf-inline input{flex:1 1 140px}
+
+.kf-idframe{display:block;width:100%;height:calc(100vh - 32px);min-height:640px;border:0;border-radius:16px;background:#120419}
