@@ -47,6 +47,10 @@ window.KFDB = (function () {
    Object.values(s.owned).forEach(o => { if (!o.until) o.until = (o.at || now) + (o.plan === "monthly" ? 30 : 365) * day; });
    s.requests = [{ id: uid(), kind: "academy", plan: "monthly", from: null, guest: { name: "Marcus Hale", email: "marcus.hale@example.com", phone: "(904) 555-0182", cls: "Mini Swift" }, price: s.academy.plans.monthly.regular, at: now - 3 * 36e5, status: "open" }];
   }
+  if (!s.mig4) { s.mig4 = 1; ch = true; const gone = Object.keys(s.users).filter(k => ["Rizvan Choudhry", "Emmanuel", "Alexander", "Jeff Schaefer"].includes(s.users[k].name));
+   gone.forEach(k => { delete s.users[k]; ["notes", "skills", "sessions", "setup", "folders", "photos", "owned", "done", "quiz", "req", "payments", "reads"].forEach(x => s[x] && delete s[x][k]); });
+   Object.keys(s.msgs).forEach(c => { s.msgs[c] = s.msgs[c].filter(m => !gone.includes(m.from)); if (c.startsWith("dm:") && gone.some(g => c.includes(g))) delete s.msgs[c]; });
+   kfSyncRoster(s, true); }
   return ch;
  }
  function seed() {
@@ -73,11 +77,11 @@ window.KFDB = (function () {
    msgs: {
     general: [
      { id: uid(), from: EUG, text: "Practice day Nov 21 at Jacksonville. Gates 7:30, first session 9:00.", at: ago(2) },
-     { id: uid(), from: "member:270006", text: "Is anyone bringing a spare 10-tooth sprocket?", at: ago(1.9) },
-     { id: uid(), from: "member:270004", text: "I have two. Find me in the paddock.", at: ago(1.8) }],
+     { id: uid(), from: "member:270002", text: "Is anyone bringing a spare 10-tooth sprocket?", at: ago(1.9) },
+     { id: uid(), from: "member:st0002", text: "I have two. Find me in the paddock.", at: ago(1.8) }],
     members: [
      { id: uid(), from: EUG, text: "Winter Series Rd 1 entries close Nov 28. Confirm with me by then.", at: ago(1) },
-     { id: uid(), from: "member:270003", text: "Confirmed for Micro.", at: ago(.9) }],
+     { id: uid(), from: "member:270006", text: "Confirmed for Micro.", at: ago(.9) }],
     academy: [{ id: uid(), from: "academy:270002", text: "Unit 1 done. The flags topic quiz is harder than it looks.", at: ago(.5) }]
    },
    reads: {}, owned: {}, done: {}, quiz: {}, req: {}

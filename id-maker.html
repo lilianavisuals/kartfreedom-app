@@ -7,13 +7,16 @@
 <link rel="stylesheet" href="_ds/kartfreedom-design-system-a6b48bc5-0155-44d3-95c9-dc16f47d2786/tokens/textures.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Michroma&display=swap">
 <script src="image-slot.js"></script>
+<script src="https://unpkg.com/html-to-image@1.11.11/dist/html-to-image.js"></script>
+<script src="https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 a{color:var(--kf-fluo)}a:hover{color:#fff}
 .lbl-x{position:absolute;font:500 14px/1 "Montserrat",sans-serif;letter-spacing:.3em;text-transform:uppercase;color:#6b6475}
-.card{position:absolute;width:1012px;height:638px;border-radius:36px;overflow:hidden;color:#fff;font-family:"Montserrat",sans-serif;isolation:isolate;box-shadow:0 30px 60px rgba(20,4,30,.35),0 2px 6px rgba(20,4,30,.25);background:radial-gradient(70% 90% at 100% 0%,rgba(160,70,200,.55) 0%,rgba(160,70,200,0) 60%),radial-gradient(60% 70% at 0% 100%,rgba(112,47,142,.6) 0%,rgba(112,47,142,0) 65%),linear-gradient(150deg,#4A1666 0%,#2C0A3C 55%,#1C0628 100%)}
-.card>*{position:absolute;z-index:2}
-.card .guil{inset:0;z-index:0;opacity:.16;background:repeating-radial-gradient(circle at 78% 120%,transparent 0 13px,rgba(255,255,255,.5) 13px 14px),repeating-radial-gradient(circle at 105% -20%,transparent 0 17px,rgba(255,255,255,.35) 17px 18px);-webkit-mask-image:linear-gradient(110deg,transparent 30%,#000 75%);mask-image:linear-gradient(110deg,transparent 30%,#000 75%)}
+.card{position:absolute;width:calc(1012px + 2*var(--b,0px));height:calc(638px + 2*var(--b,0px));border-radius:36px;overflow:hidden;color:#fff;font-family:"Montserrat",sans-serif;isolation:isolate;box-shadow:0 30px 60px rgba(20,4,30,.35),0 2px 6px rgba(20,4,30,.25);background:radial-gradient(70% 90% at 100% 0%,rgba(160,70,200,.55) 0%,rgba(160,70,200,0) 60%),radial-gradient(60% 70% at 0% 100%,rgba(112,47,142,.6) 0%,rgba(112,47,142,0) 65%),linear-gradient(150deg,#4A1666 0%,#2C0A3C 55%,#1C0628 100%)}
+.ci{position:absolute;left:var(--b,0px);top:var(--b,0px);width:1012px;height:638px}
+.ci>*{position:absolute;z-index:2}
+.card .guil{inset:calc(-1*var(--b,0px));z-index:0;opacity:.16;background:repeating-radial-gradient(circle at 78% 120%,transparent 0 13px,rgba(255,255,255,.5) 13px 14px),repeating-radial-gradient(circle at 105% -20%,transparent 0 17px,rgba(255,255,255,.35) 17px 18px);-webkit-mask-image:linear-gradient(110deg,transparent 30%,#000 75%);mask-image:linear-gradient(110deg,transparent 30%,#000 75%)}
 .card .edge{inset:0;z-index:3;border-radius:36px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18),inset 0 1px 0 rgba(255,255,255,.28);pointer-events:none}
 .card.kf-grain::after{opacity:.45;z-index:1}
 .holo{background:linear-gradient(115deg,rgba(215,255,58,.0) 0%,rgba(215,255,58,.55) 18%,rgba(232,121,249,.6) 38%,rgba(120,200,255,.55) 58%,rgba(215,255,58,.5) 78%,rgba(215,255,58,0) 100%);mix-blend-mode:screen;opacity:.55}
@@ -44,8 +47,8 @@ a{color:var(--kf-fluo)}a:hover{color:#fff}
 .ghost{left:430px;top:185px;width:640px;height:640px;opacity:.05;object-fit:contain;z-index:1!important}
 .f-foot{left:56px;right:56px;bottom:40px;display:flex;align-items:center;justify-content:space-between}
 .f-foot .mono{font-size:13px;letter-spacing:.24em;color:rgba(255,255,255,.7)}
-.strip{left:0;right:0;bottom:84px;height:3px}
-.b-strip{left:0;right:0;top:64px;height:96px;background:linear-gradient(180deg,#0E0414,#1A0726);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),inset 0 -1px 0 rgba(255,255,255,.08)}
+.strip{left:calc(-1*var(--b,0px));right:calc(-1*var(--b,0px));bottom:84px;height:3px}
+.b-strip{left:calc(-1*var(--b,0px));right:calc(-1*var(--b,0px));top:64px;height:96px;background:linear-gradient(180deg,#0E0414,#1A0726);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),inset 0 -1px 0 rgba(255,255,255,.08)}
 .b-strip .holo{position:absolute;inset:0;opacity:.18}
 .b-body{left:56px;right:56px;top:196px;display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:48px}
 .b-body .k{margin-bottom:10px}
@@ -57,7 +60,7 @@ a{color:var(--kf-fluo)}a:hover{color:#fff}
 .slog{left:56px;bottom:52px}.slog .k{margin-bottom:16px}
 .sl{transform:skewX(-12deg);transform-origin:left bottom;font-family:"Horizon","Michroma",var(--kf-font-display);font-size:40px;line-height:1.12;letter-spacing:.01em;text-transform:uppercase;white-space:nowrap}
 .sl em{font-style:normal;color:var(--kf-fluo)}
-.speed{left:700px;right:0;bottom:56px;height:72px;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-end}
+.speed{left:700px;right:calc(-1*var(--b,0px));bottom:56px;height:72px;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-end}
 .speed i{display:block;height:3px;border-radius:2px 0 0 2px;background:linear-gradient(90deg,var(--kf-fluo) 0%,rgba(215,255,58,.85) 40%,rgba(215,255,58,.45) 100%);box-shadow:0 0 6px rgba(215,255,58,.35)}
 .speed i.ref{height:2px;background:linear-gradient(90deg,#fff 0%,rgba(255,255,255,.7) 40%,rgba(255,255,255,.3) 100%);box-shadow:none}
 .b-tag{right:56px;bottom:158px;font-weight:600;font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.7)}
@@ -76,15 +79,18 @@ html,body{background:#120419;color:#fff;font-family:"Montserrat",sans-serif;-web
 .roster button.on{background:rgba(215,255,58,.1);box-shadow:inset 0 0 0 1px rgba(215,255,58,.5);color:#fff}
 .roster small{font-family:"Geist Mono",monospace;font-size:11px;color:var(--kf-lilac-200)}
 .form{display:flex;flex-direction:column;gap:12px;padding-top:16px;border-top:1px solid rgba(255,255,255,.1)}
-.form label{display:flex;flex-direction:column;gap:6px;font-size:10px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--kf-lilac-200)}
-.form input,.form select{font:500 14px "Montserrat",sans-serif;color:#fff;background:#0E0414;border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:9px 10px}
+.ph-empty{width:100%;height:100%;display:grid;place-items:center;background:rgba(255,255,255,.04)}.ph-empty img{width:64px;opacity:.22}
+.xw .card{position:relative;left:auto;top:auto;box-shadow:none}.xw .card.x-square{border-radius:0}.xw .card.x-square .edge{display:none}
+.xp{display:flex;flex-direction:column;gap:12px;padding-top:16px;border-top:1px solid rgba(255,255,255,.1)}
+.xp label,.form label{display:flex;flex-direction:column;gap:6px;font-size:10px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--kf-lilac-200)}
+.xp select,.form input,.form select{width:100%;font:500 14px "Montserrat",sans-serif;color:#fff;background:#0E0414;border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:9px 10px}
 .form .two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}.form input,.form select{width:100%;min-width:0}
 .seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border-radius:999px;background:#0E0414;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}.seg button{all:unset;cursor:pointer;text-align:center;padding:8px 0;border-radius:999px;font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.7)}.seg button:hover{background:rgba(255,255,255,.06)}.seg button.on{background:#fff;color:#18061F}
 .acts{display:flex;flex-wrap:wrap;gap:8px}
 .btn{all:unset;cursor:pointer;padding:10px 16px;border-radius:999px;font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;box-shadow:inset 0 0 0 1px rgba(255,255,255,.3)}
 .btn:hover{background:rgba(255,255,255,.08)}
 .btn.acc{background:var(--kf-fluo);color:#18061F;box-shadow:none}
-.btn.acc:hover{background:#e6ff7a}
+.btn.acc:hover{background:#e6ff7a}.btn[disabled]{opacity:.6;pointer-events:none}.xp .btn{text-align:center}
 .btn.del{color:#ff9a9a;box-shadow:inset 0 0 0 1px rgba(255,120,120,.4)}
 .hint{font-size:11px;line-height:1.5;color:rgba(255,255,255,.6)}
 .main{padding:32px;display:flex;flex-direction:column;gap:28px;align-items:center}
@@ -92,16 +98,6 @@ html,body{background:#120419;color:#fff;font-family:"Montserrat",sans-serif;-web
 .wrap{width:calc(1012px * var(--s));height:calc(638px * var(--s));position:relative}
 .wrap .card{left:0;top:0;transform:scale(var(--s));transform-origin:0 0}
 .cap{font:500 12px/1 "Montserrat";letter-spacing:.3em;text-transform:uppercase;color:#8d819b;margin-bottom:10px}
-#print{display:none}
-@media print{
-@page{size:3.375in 2.125in;margin:0}
-html,body{background:none}
-.app{display:none}
-#print{display:block}
-#print .wrap{--s:.32016;page-break-after:always;break-after:page}
-#print .card{box-shadow:none;border-radius:0}
-#print .edge{border-radius:0}
-}
 </style></head>
 <body>
 <div class="app">
@@ -113,18 +109,16 @@ html,body{background:none}
 <div class="form" id="form">
 <label>First name<input id="f-first"></label>
 <label>Last name<input id="f-last"></label>
-<div class="two"><label id="l-role">Role<select id="f-role"><option>Owner · Coach</option><option>Owner · Media</option><option>Manager</option><option>Coach</option><option>Mechanic</option><option>Coach · Mechanic</option><option>Team staff</option></select></label><label id="l-cls">Class<select id="f-cls"><option>Micro</option><option>Mini</option><optgroup label="X30"><option>X30 Junior</option><option>X30 Senior</option><option>X30 Masters</option></optgroup><optgroup label="KA100"><option>KA100 Junior</option><option>KA100 Senior</option><option>KA100 Masters</option></optgroup><optgroup label="LO206"><option>LO206 Junior</option><option>LO206 Senior</option><option>LO206 Masters</option></optgroup><option>Shifter</option></select></label><label><span id="l-no">Member no.</span><input id="f-no" class="mono"></label></div>
+<div class="two"><label id="l-role">Role<select id="f-role"><option>Owner · Coach</option><option>Owner · Media</option><option>Manager</option><option>Coach</option><option>Mechanic</option><option>Coach · Mechanic</option><option>Team staff</option></select></label><label id="l-cls">Class<select id="f-cls"><option>Micro</option><option>Mini</option><optgroup label="X30"><option>X30 Junior</option><option>X30 Senior</option><option>X30 Masters</option></optgroup><optgroup label="KA100"><option>KA100 Junior</option><option>KA100 Senior</option><option>KA100 Masters</option></optgroup><optgroup label="LO206"><option>LO206 Cadet</option><option>LO206 Junior</option><option>LO206 Senior</option><option>LO206 Masters</option></optgroup><option>Shifter</option></select></label><label><span id="l-no">Member no.</span><input id="f-no" class="mono"></label></div>
 <label>Date of birth<input id="f-dob" type="date" style="color-scheme:dark"></label>
 <div class="two"><label>Valid thru<input id="f-valid" placeholder="12.2027"></label><label>Since<input id="f-since" placeholder="2026"></label></div>
 <p class="hint">Drop a photo into the card's photo box. Drag inside it to reposition.</p>
 <div class="acts"><button class="btn del" id="del">Remove</button></div>
 </div>
-<div class="acts" style="margin-top:auto"><button class="btn acc" id="pr">Print / PDF all</button></div>
-<p class="hint">Prints each card at CR80 size (3.375 × 2.125 in): front, then back, one per page.</p>
+<div class="xp" style="margin-top:auto"><label>Export<select id="x-scope"><option value="one">This person</option><option value="driver">All drivers</option><option value="staff">All staff</option><option value="all">Everyone</option></select></label><label>Format<select id="x-fmt"><option value="bleed">Print service · CR80 + bleed</option><option value="trim">Print service · CR80 trim</option><option value="sheet">Driver copy · one page</option></select></label><button class="btn acc" id="pr">Download PDF</button><p class="hint" id="x-hint"></p></div>
 </aside>
 <main class="main" id="main"></main>
 </div>
-<div id="print"></div>
 <script>
 const KEY='kf-member-ids-v1';
 const seed=[{uid:'jude',first:'Jude',last:'Ellison',cls:'Micro',no:'KF-27-0001',valid:'12.2027',since:'2026',src:'assets/jude-id-photo.jpg'}];
@@ -135,8 +129,8 @@ const save=()=>localStorage.setItem(KEY,JSON.stringify(list));
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const mrz=m=>('KF<<'+(m.last||'').toUpperCase().replace(/[^A-Z]/g,'<')+'<'+(m.first||'').toUpperCase().replace(/[^A-Z]/g,'<')+'<<'+(m.no||'').replace(/\D/g,'').slice(-4)+'<<USA');
 const speed=code=>{const d=(code||'').replace(/\D/g,'').split('').map(Number);const c=d.reduce((a,b)=>a+b,0)%10;const bars=[100,...[...d,c].map(n=>30+7*n),100];return bars.map((w,i)=>'<i'+(i===0||i===bars.length-1?' class="ref"':'')+' style="width:'+w+'%"></i>').join('')};
-const front=(m,slot)=>`<section class="card kf-grain" data-screen-label="ID Front · ${esc(m.first)} ${esc(m.last)}"><div class="guil"></div><img class="ghost" src="assets/kf-mark.png" alt=""><div class="f-hdr"><img src="assets/kf-mark.png" alt="KF"><span class="b">KartFreedom</span><i></i><span class="t">${isS(m)?'Team staff':'Driver membership'}</span></div><div class="photo">${slot?`<image-slot id="kfid-photo-${m.uid}" placeholder="${isS(m)?'Staff':'Driver'} photo" shape="rect"${m.src?` src="${m.src}"`:''}></image-slot>`:`<div class="pslot" data-uid="${m.uid}" style="width:100%;height:100%"></div>`}</div><div class="name"><span class="k">${isS(m)?'Staff':'Driver'}</span><div class="v" style="margin-top:6px">${esc(m.first)} ${esc(m.last)}</div></div><div class="grid"><div><span class="k">${isS(m)?'Staff no.':'Member no.'}</span><span class="v mono">${esc(m.no)}</span></div><div><span class="k">${isS(m)?'Role':'Class'}</span><span class="v">${esc(isS(m)?m.role:m.cls)}</span></div><div><span class="k">Valid thru</span><span class="v mono">${esc(m.valid)}</span></div><div><span class="k">${isS(m)?'Team since':'Member since'}</span><span class="v mono">${esc(m.since)}</span></div><div><span class="k">Date of birth</span><span class="v mono">${dob(m.dob)}</span></div></div><div class="seal"><img src="assets/kf-mark.png" alt=""></div><div class="strip holo"></div><div class="f-foot"><span class="mono">${esc(mrz(m))}</span><span class="mono">USA</span></div><div class="edge"></div></section>`;
-const back=m=>`<section class="card kf-grain" data-screen-label="ID Back · ${esc(m.first)} ${esc(m.last)}"><div class="guil" style="transform:scaleX(-1)"></div><div class="b-strip"><div class="holo"></div></div><div class="b-body"><div class="b-row"><p>${isS(m)?'This card identifies the holder as KartFreedom team staff · '+esc(m.role)+'. Non-transferable.':'This card identifies the holder as a member of the KartFreedom driver development program. Non-transferable.'}</p></div><div class="b-row"><div><span class="k">${isS(m)?'Staff no.':'Member no.'}</span><span class="v mono" style="font-size:24px;letter-spacing:.06em">${esc(m.no)}</span></div><div><span class="k">Valid thru</span><span class="v mono" style="font-size:24px;letter-spacing:.06em">${esc(m.valid)}</span></div></div></div><div class="slog"><span class="k">Our motto</span><div class="sl">Racing is<br>in our <em>blood</em></div></div><div class="speed">${speed(m.no)}</div><div class="b-tag">@kartfreedom.us</div><div class="edge"></div></section>`;
+const front=(m,slot,ph)=>`<section class="card kf-grain" data-screen-label="ID Front · ${esc(m.first)} ${esc(m.last)}"><div class="ci"><div class="guil"></div><img class="ghost" src="assets/kf-mark.png" alt=""><div class="f-hdr"><img src="assets/kf-mark.png" alt="KF"><span class="b">KartFreedom</span><i></i><span class="t">${isS(m)?'Team staff':'Driver membership'}</span></div><div class="photo">${slot?`<image-slot id="kfid-photo-${m.uid}" placeholder="${isS(m)?'Staff':'Driver'} photo" shape="rect"${m.src?` src="${m.src}"`:''}></image-slot>`:(ph||'')}</div><div class="name"><span class="k">${isS(m)?'Staff':'Driver'}</span><div class="v" style="margin-top:6px">${esc(m.first)} ${esc(m.last)}</div></div><div class="grid"><div><span class="k">${isS(m)?'Staff no.':'Member no.'}</span><span class="v mono">${esc(m.no)}</span></div><div><span class="k">${isS(m)?'Role':'Class'}</span><span class="v">${esc(isS(m)?m.role:m.cls)}</span></div><div><span class="k">Valid thru</span><span class="v mono">${esc(m.valid)}</span></div><div><span class="k">${isS(m)?'Team since':'Member since'}</span><span class="v mono">${esc(m.since)}</span></div><div><span class="k">Date of birth</span><span class="v mono">${dob(m.dob)}</span></div></div><div class="seal"><img src="assets/kf-mark.png" alt=""></div><div class="strip holo"></div><div class="f-foot"><span class="mono">${esc(mrz(m))}</span><span class="mono">USA</span></div><div class="edge"></div></div></section>`;
+const back=m=>`<section class="card kf-grain" data-screen-label="ID Back · ${esc(m.first)} ${esc(m.last)}"><div class="ci"><div class="guil" style="transform:scaleX(-1)"></div><div class="b-strip"><div class="holo"></div></div><div class="b-body"><div class="b-row"><p>${isS(m)?'This card identifies the holder as KartFreedom team staff · '+esc(m.role)+'. Non-transferable.':'This card identifies the holder as a member of the KartFreedom driver development program. Non-transferable.'}</p></div><div class="b-row"><div><span class="k">${isS(m)?'Staff no.':'Member no.'}</span><span class="v mono" style="font-size:24px;letter-spacing:.06em">${esc(m.no)}</span></div><div><span class="k">Valid thru</span><span class="v mono" style="font-size:24px;letter-spacing:.06em">${esc(m.valid)}</span></div></div></div><div class="slog"><span class="k">Our motto</span><div class="sl">Racing is<br>in our <em>blood</em></div></div><div class="speed">${speed(m.no)}</div><div class="b-tag">@kartfreedom.us</div><div class="edge"></div></div></section>`;
 const cur=()=>shown().find(m=>m.uid===sel);
 const F=['first','last','cls','role','dob','no','valid','since'];const dob=s=>{const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(s||'');return m?m[2]+'.'+m[3]+'.'+m[1]:'—'};
 function fitScale(){const w=document.getElementById('main').clientWidth-64;return Math.min(.62,Math.max(.28,w>1340?(w-28)/2024:w/1012))}
@@ -148,7 +142,46 @@ document.getElementById('roster').onclick=e=>{const b=e.target.closest('button')
 document.getElementById('add').onclick=()=>{const m={uid:'m'+Date.now().toString(36),kind,first:'New',last:kind==='staff'?'Staff':'Driver',cls:'Micro',role:'Coach',no:nextNo(),valid:'12.'+(new Date().getFullYear()+1),since:String(new Date().getFullYear())};list.push(m);sel=m.uid;save();renderRoster();renderMain();document.getElementById('f-first').select()};
 document.getElementById('del').onclick=()=>{const m=cur();if(!m||!confirm('Remove '+m.first+' '+m.last+'?'))return;list=list.filter(x=>x!==m);sel=shown()[0]?.uid;save();renderRoster();renderMain()};
 F.forEach(k=>document.getElementById('f-'+k).addEventListener('input',e=>{const m=cur();m[k]=e.target.value;save();renderRoster();renderMain()}));
-document.getElementById('pr').onclick=()=>{const p=document.getElementById('print');p.innerHTML=list.map(m=>`<div class="wrap">${front(m,true)}</div><div class="wrap">${back(m)}</div>`).join('');p.style.display='block';fitText(p);p.style.display='';setTimeout(()=>print(),600)};
+const XH={bleed:'3.625 × 2.375 in pages (CR80 + 1/8 in bleed), 600 dpi. One face per page: front, then back, for each person. Trim to 3.375 × 2.125 in.',trim:'3.375 × 2.125 in pages (CR80), 600 dpi. One face per page: front, then back, for each person.',sheet:'One Letter page per person with the front and back. Good for emailing to drivers.'};
+const xf=document.getElementById('x-fmt'),xh=document.getElementById('x-hint');xf.onchange=()=>xh.textContent=XH[xf.value];xh.textContent=XH[xf.value];
+let SLOTS=null;
+async function slotState(){if(SLOTS)return SLOTS;try{const r=await fetch('.image-slots.state.json',{cache:'no-store'});SLOTS=r.ok?await r.json():{}}catch(e){SLOTS={}}return SLOTS}
+const loadImg=src=>new Promise(res=>{const i=new Image();i.onload=()=>res(i);i.onerror=()=>res(null);i.src=src});
+async function photoFor(m){
+ const el=document.getElementById('kfid-photo-'+m.uid);let v=null;
+ if(el&&el._img&&el._img.naturalWidth&&el._img.getAttribute('src'))v={u:el._img.src,...(el._view||{s:1,x:0,y:0})};
+ if(!v){const st=await slotState();v=st['kfid-photo-'+m.uid];if(typeof v==='string')v={u:v,s:1,x:0,y:0}}
+ const src=(v&&v.u)||m.src;if(!src)return '<div class="ph-empty"><img src="assets/kf-mark.png" alt=""></div>';
+ const im=await loadImg(src);if(!im)return '<div class="ph-empty"><img src="assets/kf-mark.png" alt=""></div>';
+ const fw=230,fh=290,s=(v&&v.s)||1,base=Math.max(fw/im.naturalWidth,fh/im.naturalHeight),w=im.naturalWidth*base*s,hh=im.naturalHeight*base*s,cx=(50+((v&&v.x)||0))/100*fw,cy=(50+((v&&v.y)||0))/100*fh;
+ return '<img src="'+src+'" alt="" style="position:absolute;left:'+(cx-w/2)+'px;top:'+(cy-hh/2)+'px;width:'+w+'px;height:'+hh+'px;max-width:none">'}
+document.getElementById('pr').onclick=async()=>{
+ const btn=document.getElementById('pr'),scope=document.getElementById('x-scope').value,fmt=xf.value;
+ const people=scope==='one'?[cur()].filter(Boolean):scope==='all'?list:list.filter(m=>m.kind===scope);
+ if(!people.length){alert('Nobody to export.');return}
+ if(!window.htmlToImage||!window.jspdf){alert('The PDF tools did not load. Check your connection and reload.');return}
+ const lbl=btn.textContent;btn.disabled=true;
+ const b=fmt==='bleed'?37.5:0,W=1012+2*b,H=638+2*b,sheet=fmt==='sheet';
+ const pw=sheet?8.5:fmt==='bleed'?3.625:3.375,phh=sheet?11:fmt==='bleed'?2.375:2.125;
+ const host=document.createElement('div');host.style.cssText='position:fixed;left:-40000px;top:0;width:'+W+'px';document.body.appendChild(host);
+ try{
+  await document.fonts.ready;
+  const pdf=new window.jspdf.jsPDF({unit:'in',format:sheet?'letter':[pw,phh],orientation:sheet?'portrait':'landscape',compress:true});let pages=0;
+  const add=()=>{if(pages++)pdf.addPage(sheet?'letter':[pw,phh],sheet?'portrait':'landscape')};
+  const opts={quality:.95,pixelRatio:2,width:W,height:H,backgroundColor:sheet?'#ffffff':'#1C0628',style:{left:'0',top:'0',margin:'0',transform:'none'}};
+  for(let i=0;i<people.length;i++){const m=people[i];btn.textContent='Preparing '+(i+1)+' / '+people.length+'…';
+   host.innerHTML='<div class="xw">'+front(m,false,await photoFor(m))+'</div><div class="xw">'+back(m)+'</div>';
+   host.querySelectorAll('.card').forEach(c=>{c.style.setProperty('--b',b+'px');c.classList.add(sheet?'x-round':'x-square')});
+   fitText(host);await Promise.all([...host.querySelectorAll('img')].map(x=>x.complete?0:Promise.race([new Promise(r=>{x.onload=x.onerror=r}),new Promise(r=>setTimeout(r,3000))])));
+   const faces=[...host.querySelectorAll('.card')];if(i===0)await htmlToImage.toJpeg(faces[0],{...opts,pixelRatio:.25});
+   const shots=[];for(const f of faces)shots.push(await htmlToImage.toJpeg(f,opts));
+   if(sheet){add();const cw=6.5,ch=cw*638/1012,x=1;pdf.setFont('helvetica','bold');pdf.setFontSize(10);pdf.setTextColor(40,10,60);pdf.text('KARTFREEDOM · '+(isS(m)?'STAFF ID':'MEMBER ID'),x,.75);pdf.setFont('helvetica','normal');pdf.setTextColor(110,100,120);pdf.text(((m.first||'')+' '+(m.last||'')).trim().toUpperCase()+'  ·  '+(m.no||''),x,.98);
+    pdf.setFontSize(8);pdf.text('FRONT',x,1.3);pdf.addImage(shots[0],'JPEG',x,1.4,cw,ch);pdf.text('BACK',x,1.4+ch+.45);pdf.addImage(shots[1],'JPEG',x,1.4+ch+.55,cw,ch)}
+   else shots.forEach(s=>{add();pdf.addImage(s,'JPEG',0,0,pw,phh)})}
+  const nm=scope==='one'?'KartFreedom ID - '+(people[0].first+' '+people[0].last).trim():'KartFreedom IDs - '+({driver:'Drivers',staff:'Staff',all:'Everyone'})[scope];
+  pdf.save(nm+(sheet?'':fmt==='bleed'?' (print, bleed)':' (print)')+'.pdf');
+ }catch(e){console.error(e);alert('Export failed: '+(e.message||e))}
+ finally{host.remove();btn.disabled=false;btn.textContent=lbl}};
 document.getElementById('seg').onclick=e=>{const b=e.target.closest('button');if(!b)return;kind=b.dataset.k;sel=shown()[0]?.uid;renderRoster();renderMain()};
 addEventListener('resize',renderMain);
 renderRoster();renderMain();

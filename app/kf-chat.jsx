@@ -26,7 +26,7 @@ function ChatTab({ ctx }) {
   <div className="kf-card kf-list">{convs.map(c => { const m = (db.msgs[c.id] || []).slice(-1)[0], ou = c.dm && db.users[c.other], n = unread(c);
    return <button key={c.id} className={"kf-li kf-conv" + (cur === c.id ? " on" : "")} onClick={() => open(c.id)}>
     {c.dm ? <KAvatar u={ou} s={40}></KAvatar> : <span className="kf-av ch">#</span>}
-    <div><b>{c.t}</b><small>{m ? (m.from === ctx.key ? "You: " : c.dm ? "" : ((db.users[m.from] || {}).first || "") + ": ") + (m.text || (m.media && m.media.length ? (m.media[0].kind === "video" ? "Video" : m.media[0].kind === "image" ? "Photo" : "File") : "")) : c.sub}</small></div>
+    <div><b className="kf-bn">{c.t}{c.dm && <KBday on={kfIsBday(db, c.other)}></KBday>}</b><small>{m ? (m.from === ctx.key ? "You: " : c.dm ? "" : ((db.users[m.from] || {}).first || "") + ": ") + (m.text || (m.media && m.media.length ? (m.media[0].kind === "video" ? "Video" : m.media[0].kind === "image" ? "Photo" : "File") : "")) : c.sub}</small></div>
     <span className="kf-conv-r">{m && <small>{kfAgo(m.at)}</small>}{n > 0 && <i className="kf-badge">{n}</i>}</span></button>; })}</div>
  </div>;
  return <div className={"kf-chatw" + (C ? " has" : "")}>
@@ -35,7 +35,7 @@ function ChatTab({ ctx }) {
   <KSheet open={pick} onClose={() => setPick(false)}>
    <div className="kf-rowb"><span className="kf-lbl">New message</span><button className="kf-icbtn" onClick={() => setPick(false)}><KIcon n="x"></KIcon></button></div>
    <label className="kf-field"><input value={q} onChange={e => setQ(e.target.value)} placeholder="Search people"></input></label>
-   <div className="kf-list kf-pick">{people.map(([k, u]) => <button key={k} className="kf-li" onClick={() => { setPick(false); setQ(""); open(kfDM(ctx.key, k)); }}><KAvatar u={u} s={38}></KAvatar><div><b>{u.name}</b><small>{KF.roles[u.role].label} · {u.cls}</small></div></button>)}</div>
+   <div className="kf-list kf-pick">{people.map(([k, u]) => <button key={k} className="kf-li" onClick={() => { setPick(false); setQ(""); open(kfDM(ctx.key, k)); }}><KAvatar u={u} s={38}></KAvatar><div><b className="kf-bn">{u.name}<KBday on={kfIsBday(db, k)}></KBday></b><small>{KF.roles[u.role].label} · {u.cls}</small></div></button>)}</div>
   </KSheet>
  </div>;
 }
@@ -57,7 +57,7 @@ function Thread({ ctx, conv, onBack }) {
  return <div className="kf-thread">
   <div className="kf-thread-h"><button className="kf-icbtn kf-thread-back" onClick={onBack} aria-label="Back"><KIcon n="back"></KIcon></button>
    {conv.dm ? <KAvatar u={ou} s={36}></KAvatar> : <span className="kf-av ch">#</span>}
-   <div><b>{conv.dm ? (ou ? ou.name : "") : ch.t}</b><small>{conv.dm ? (ou ? KF.roles[ou.role].label + " · " + ou.cls : "") : ch.sub}</small></div></div>
+   <div><b className="kf-bn">{conv.dm ? (ou ? ou.name : "") : ch.t}{conv.dm && <KBday on={kfIsBday(db, conv.other)}></KBday>}</b><small>{conv.dm ? (ou ? KF.roles[ou.role].label + " · " + ou.cls : "") : ch.sub}</small></div></div>
   <div className="kf-msgs" ref={box}>
    {!msgs.length && <p className="kf-hint">No messages yet. Say hello.</p>}
    {msgs.map(m => { const u = db.users[m.from] || { name: "Unknown" }, me = m.from === ctx.key, dd = kfDate(m.at), sep = dd !== lastDay; lastDay = dd;
@@ -65,7 +65,7 @@ function Thread({ ctx, conv, onBack }) {
      <div className={"kf-msg" + (me ? " me" : "") + (kfStaff(u) ? " coach" : "")}>
       {!me && <KAvatar u={u} s={30}></KAvatar>}
       <div className="kf-msg-b">
-       {!me && <span className="kf-msg-n">{u.name}{kfStaff(u) && <em>{KF.roles[u.role].label}</em>}</span>}
+       {!me && <span className="kf-msg-n">{u.name}<KBday on={kfIsBday(db, m.from)}></KBday>{kfStaff(u) && <em>{KF.roles[u.role].label}</em>}</span>}
        {(m.media || []).map((x, i) => x.kind === "file" ? <button key={i} className="kf-msg-file" onClick={() => kfDownload(x)}><KIcon n="dl" s={16}></KIcon>{x.name}</button>
         : <button key={i} className="kf-msg-media" onClick={() => setVi(gallery.findIndex(g => g.id === x.blob))}><KMedia m={x}></KMedia>{x.kind === "video" && <span className="kf-ph-play"><KIcon n="play" s={14} fill></KIcon></span>}</button>)}
        {m.text && <p>{m.text}</p>}

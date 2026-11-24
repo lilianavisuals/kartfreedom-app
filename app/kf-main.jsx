@@ -1,6 +1,6 @@
 const KF_UI = "kfui.v1";
 const kfQS = new URLSearchParams(location.search);
-const KF_AS = KF_LIVE ? undefined : { member: "member:270001", academy: "academy:270002", coach: "member:000001", owner: "member:000001", manager: "member:000002", daria: "member:000003" }[kfQS.get("as")];
+const KF_AS = KF_LIVE ? undefined : { member: "member:270001", academy: "academy:270002", coach: "member:000001", owner: "member:000001", manager: "member:000002", daria: "member:000003", tanner: "member:270003" }[kfQS.get("as")];
 const KF_SCAN = kfQS.get("as") === "scan", KF_TAB = kfQS.get("tab");
 const kfLoadUI = () => { try { return JSON.parse(sessionStorage.getItem(KF_UI)) || {}; } catch (e) { return {}; } };
 const KF_DBKEYS = ["owned", "done", "quiz", "req"];
@@ -45,7 +45,13 @@ function KFApp() {
   }
   prev.current = { key, notes, conv, openReq, myOk, overdue: overdue.length };
  }, [db.v, key, tick]);
- useEffectK(() => { if (!toast) return; const t = setTimeout(() => setToast(null), 5000); return () => clearTimeout(t); }, [toast]);
+ useEffectK(() => { if (!toast) return; const t = setTimeout(() => setToast(null), toast.bday ? 9000 : 5000); return () => clearTimeout(t); }, [toast]);
+ useEffectK(() => { if (!user || !kfCan(user, "admin")) return; const f = "kf.roster.v." + key; if (localStorage.getItem(f) === String(KF_ROSTER_V)) return; localStorage.setItem(f, String(KF_ROSTER_V)); KFDB.update(d => { kfSyncRoster(d, !KF_LIVE); }); }, [key, !!user]);
+ const bdays = user ? kfBdays(db) : [], bdayKey = "kf.bday." + key + "." + new Date().getFullYear() + "-" + kfMD(new Date());
+ const [bdHide, setBdHide] = useStateK(() => localStorage.getItem(bdayKey) === "1");
+ useEffectK(() => { setBdHide(localStorage.getItem(bdayKey) === "1"); }, [bdayKey]);
+ useEffectK(() => { if (!bdays.length) return; const f = bdayKey + ".toast"; if (sessionStorage.getItem(f)) return; const t = setTimeout(() => { sessionStorage.setItem(f, "1"); const me = bdays.includes(key), o = bdays.filter(k => k !== key);
+  setToast(me ? { t: "Happy birthday", b: "Happy birthday, " + user.first + ". From everyone at KartFreedom.", bday: 1, tab: "chat" } : { t: "Birthday today", b: kfBdayNames(db, o) + (o.length > 1 ? " have" : " has") + " a birthday today. Wish " + (o.length > 1 ? "them" : db.users[o[0]].first) + " a happy birthday.", bday: 1, dm: o[0] }); }, 1400); return () => clearTimeout(t); }, [bdayKey, bdays.join()]);
 
  const setUi = p => setUI(o => ({ ...o, ...p }));
  const out = () => { setUi({ session: null, stack: [], tab: null, chatOpen: null }); if (KF_LIVE) KFDB.signOut(); };
@@ -67,6 +73,12 @@ function KFApp() {
   : tab === "progress" ? <ProgressTab ctx={ctx}></ProgressTab> : tab === "photos" ? <PhotosTab ctx={ctx}></PhotosTab>
   : tab === "billing" ? <BillingTab ctx={ctx}></BillingTab> : tab === "gifts" ? <GiftsTab ctx={ctx}></GiftsTab>
   : tab === "ids" ? <iframe className="kf-idframe" src="id-maker.html" title="ID cards"></iframe> : tab === "academy" ? <AcademyTab ctx={ctx}></AcademyTab> : <ChatTab ctx={ctx}></ChatTab>;
+ const wish = k => setUi({ tab: "chat", stack: [], chatOpen: kfDM(key, k) });
+ const bdOthers = bdays.filter(k => k !== key), bdMe = bdays.includes(key), bdBar = !bdHide && (bdMe || bdOthers.length) && tab === tabs[0][0] ? <div className="kf-bdaybar"><div className="kf-card kf-bdaycard">
+  <span className="kf-bdayic"><KIcon n="cake" s={22}></KIcon></span>
+  <div><span className="kf-eyebrow">{bdMe ? "Today is your birthday" : "Birthday today"}</span><b>{bdMe ? "Happy birthday, " + user.first + "." : kfBdayNames(db, bdOthers) + (bdOthers.length > 1 ? " have birthdays today." : " has a birthday today.")}</b><small>{bdMe ? (bdOthers.length ? "You share it with " + kfBdayNames(db, bdOthers) + "." : "From everyone at KartFreedom.") : "Wish " + (bdOthers.length > 1 ? "them" : db.users[bdOthers[0]].first) + " a happy birthday."}</small></div>
+  <div className="kf-row">{bdOthers.slice(0, 3).map(k => <button key={k} className="kf-btn auto sm" onClick={() => wish(k)}><KIcon n="chat" s={15}></KIcon>{bdOthers.length > 1 ? db.users[k].first : "Send wishes"}</button>)}<button className="kf-icbtn" aria-label="Dismiss" onClick={() => { localStorage.setItem(bdayKey, "1"); setBdHide(true); }}><KIcon n="x" s={16}></KIcon></button></div>
+ </div></div> : null;
  const top = ui.stack[ui.stack.length - 1];
  const V = top && ({ store: StoreView, checkout: CheckoutView, lesson: LessonView, quiz: QuizView, cert: CertView, id: IdView, join: JoinView, coach: CoachView, driver: DriverView, topicedit: TopicEditView, examedit: ExamEditView, sub: SubView })[top.t];
  const hdr = tab === "home" ? (isMem ? "Driver dashboard" : "Academy dashboard") : tabs.find(t => t[0] === tab)[1];
@@ -81,12 +93,13 @@ function KFApp() {
    </nav>
    <div className="kf-content">
     <KHeader label={hdr} right={<button className="kf-idbtn" onClick={() => ctx.push({ t: "id" })}><KAvatar u={user} s={30}></KAvatar><span>{user.id}</span></button>}></KHeader>
-    <div className={"kf-scroll" + (tab === "chat" ? " flex" : "")} key={tab}>{body}</div>
+    <div className={"kf-scroll" + (tab === "chat" ? " flex" : "")} key={tab}>{bdBar}{body}</div>
    </div>
   </div>
   {V && <div className="kf-over" key={ui.stack.length + top.t + (top.id || "")}><V ctx={ctx} {...top}></V></div>}
-  {toast && <button className={"kf-toast" + (toast.bad ? " bad" : "")} onClick={() => { setToast(null); toast.go ? ctx.push(toast.go) : ctx.go(toast.tab); }}><span className={"kf-ok" + (toast.bad ? " bad" : "")}><i></i>{toast.t}</span><p>{toast.b}</p></button>}
+  {toast && <button className={"kf-toast" + (toast.bad ? " bad" : "") + (toast.bday ? " bday" : "")} onClick={() => { setToast(null); toast.dm ? wish(toast.dm) : toast.go ? ctx.push(toast.go) : ctx.go(toast.tab); }}><span className={"kf-ok" + (toast.bad ? " bad" : "")}>{toast.bday ? <KIcon n="cake" s={14}></KIcon> : <i></i>}{toast.t}</span><p>{toast.b}</p></button>}
  </div>;
 }
 
+function kfBdayNames(db, ks) { const n = ks.map(k => db.users[k].first || db.users[k].name); return n.length < 3 ? n.join(" and ") : n.slice(0, -1).join(", ") + " and " + n[n.length - 1]; }
 ReactDOM.createRoot(document.getElementById("root")).render(<KFApp></KFApp>);

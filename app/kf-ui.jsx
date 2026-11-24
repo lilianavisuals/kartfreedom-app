@@ -1,6 +1,7 @@
 const { useState: useStateK, useEffect: useEffectK, useRef: useRefK } = React;
 
 const KF_ICONS = {
+ cake:"M4 21h16M5 21v-7h14v7M5 17.5c2.3 1.2 3.4-1 5.2 0s3.4 1.2 5.2 0 2.6-1.2 3.6-.4M12 14v-3M12 8.5a1.6 1.6 0 0 1-1.6-1.6C10.4 5.4 12 3 12 3s1.6 2.4 1.6 3.9A1.6 1.6 0 0 1 12 8.5z",
  home:"M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z", coach:"M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z",
  trend:"M3 17l6-6 4 4 8-8M14 7h7v7", image:"M3 5h18v14H3zM21 15l-5-5L5 19M9 9.5a1 1 0 1 0 0 .01", cap:"M22 10 12 5 2 10l10 5 10-5zM6 12v5c3 2 9 2 12 0v-5",
  lock:"M5 11h14v10H5zM8 11V7a4 4 0 0 1 8 0v4", right:"M9 6l6 6-6 6", back:"M15 6l-6 6 6 6", check:"M5 12l5 5 9-10", play:"M8 5v14l11-7z",
@@ -85,4 +86,10 @@ function kfPick(accept, multi) {
 const kfCan = (u, p) => !!u && (KF.roles[u.role] || {}).can && KF.roles[u.role].can.includes(p);
 const kfStaff = u => !!u && ["owner", "manager", "coach", "staff", "office", "mechanic", "coachmech"].includes(u.role);
 
+const kfMD = t => String(t.getMonth() + 1).padStart(2, "0") + "-" + String(t.getDate()).padStart(2, "0");
+const kfBdayOf = (db, k) => { const u = db.users[k], m = /(\d{2})-(\d{2})$/.exec((u && u.info && u.info.dob) || ((db.reminders || {}).bdays || {})[k] || ""); return m ? m[1] + "-" + m[2] : null; };
+const kfIsBday = (db, k) => !!k && kfBdayOf(db, k) === kfMD(new Date());
+const kfBdays = db => Object.keys(db.users).filter(k => db.users[k].status !== "suspended" && kfIsBday(db, k));
+function KBday({ on }) { return on ? <span className="kf-bday" title="Birthday today"><KIcon n="cake" s={12}></KIcon>Birthday</span> : null; }
+Object.assign(window, { kfIsBday, kfBdays, KBday, kfMD });
 Object.assign(window, { useDB, KAvatar, kfAgo, kfDate, KMedia, kfDownload, kfPick, kfCan, kfStaff, kfInit, useStateK, useEffectK, useRefK, KIcon, KHeader, KCard, KSheet, KBar, kfBars });

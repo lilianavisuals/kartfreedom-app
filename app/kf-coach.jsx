@@ -138,6 +138,7 @@ function TeamTab({ ctx }) {
      {(u.role === "member" || u.role === "academy") && <button className="kf-icbtn" aria-label="Open profile" onClick={() => ctx.push({ t: "driver", id: k })}><KIcon n="right" s={18}></KIcon></button>}
     </div>
    </div>; })}</div>
+  {kfCan(ctx.user, "admin") && <button className="kf-link" style={{ alignSelf: "flex-start" }} onClick={() => { let r; KFDB.update(d => { r = kfSyncRoster(d, !KF_LIVE); }); setTimeout(() => alert("Roster synced from ID cards · " + r.updated + " updated · " + r.added + " added." + (r.added && KF_LIVE ? " Set a passcode for each new account before they sign in." : "")), 50); }}>Sync roster from ID cards</button>}
   {!KF_LIVE && <button className="kf-link" style={{ alignSelf: "flex-start" }} onClick={() => confirm("Reset all demo data? Notes, chat, uploads and progress will be cleared.") && KFDB.reset()}>Reset demo data</button>}
   <KSheet open={add} onClose={() => setAdd(false)}>
    {made && db.users[made] ? <>

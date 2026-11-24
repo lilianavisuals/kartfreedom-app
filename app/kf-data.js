@@ -10,11 +10,7 @@ const users = {
  "academy:270002": { type:"academy", id:"KFA-27-0002", name:"Avery Cole", first:"Avery", cls:"KA100 Jr", since:"2026", valid:"Lifetime", photo:null },
  "member:000001": { type:"staff", role:"owner", id:"KF-00-0001", name:"Eugene Panenko", first:"Eugene", cls:"Coach · Owner", since:"2020", valid:"Staff", photo:null },
  "member:000002": { type:"staff", role:"manager", id:"KF-00-0002", name:"KartFreedom HQ", first:"HQ", cls:"Owner · Media", since:"2020", valid:"Staff", photo:null },
- "member:000003": { type:"staff", role:"office", id:"KF-00-0003", name:"Daria", first:"Daria", cls:"Manager", since:"2026", valid:"Staff", photo:null },
- "member:270003": { type:"member", id:"KF-27-0003", name:"Rizvan Choudhry", first:"Rizvan", cls:"Micro", since:"2026", valid:"12 / 27", photo:null, coach:"Eugene" },
- "member:270004": { type:"member", id:"KF-27-0004", name:"Emmanuel", first:"Emmanuel", cls:"Shifter", since:"2026", valid:"12 / 27", photo:null, coach:"Eugene" },
- "member:270005": { type:"member", id:"KF-27-0005", name:"Alexander", first:"Alexander", cls:"X30 Sr", since:"2026", valid:"12 / 27", photo:null, coach:"Eugene" },
- "member:270006": { type:"member", id:"KF-27-0006", name:"Jeff Schaefer", first:"Jeff", cls:"KA100 Sr", since:"2026", valid:"12 / 27", photo:null, coach:"Eugene" }
+ "member:000003": { type:"staff", role:"office", id:"KF-00-0003", name:"Dariia Bear", first:"Dariia", cls:"Manager", since:"2026", valid:"Staff", photo:null }
 };
 const coachNotes = [
  { date:"Nov 08", session:"Practice · Jacksonville", verdict:"Gaining · −0.31 s on best", tone:"success", text:"Braking is cleaner. You released the brake earlier into T4 and kept 2 km/h more at the apex. Exit of T7 is still early on throttle: the kart scrubs and you lose the run to T8.", focus:["Brake release into T4: keep it","Wait one beat before throttle at T7","Look further up the road through T8"] },
