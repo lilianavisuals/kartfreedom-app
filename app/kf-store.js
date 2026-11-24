@@ -78,7 +78,7 @@ window.KFDB = (function () {
     general: [
      { id: uid(), from: EUG, text: "Practice day Nov 21 at Jacksonville. Gates 7:30, first session 9:00.", at: ago(2) },
      { id: uid(), from: "member:270002", text: "Is anyone bringing a spare 10-tooth sprocket?", at: ago(1.9) },
-     { id: uid(), from: "member:st0002", text: "I have two. Find me in the paddock.", at: ago(1.8) }],
+     { id: uid(), from: "member:000005", text: "I have two. Find me in the paddock.", at: ago(1.8) }],
     members: [
      { id: uid(), from: EUG, text: "Winter Series Rd 1 entries close Nov 28. Confirm with me by then.", at: ago(1) },
      { id: uid(), from: "member:270006", text: "Confirmed for Micro.", at: ago(.9) }],

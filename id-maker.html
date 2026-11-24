@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="_ds/kartfreedom-design-system-a6b48bc5-0155-44d3-95c9-dc16f47d2786/tokens/social.css">
 <link rel="stylesheet" href="_ds/kartfreedom-design-system-a6b48bc5-0155-44d3-95c9-dc16f47d2786/tokens/textures.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Michroma&display=swap">
-<script src="image-slot.js"></script>
+<script src="image-slot-hq.js"></script>
 <script src="https://unpkg.com/html-to-image@1.11.11/dist/html-to-image.js"></script>
 <script src="https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 <style>
@@ -68,6 +68,27 @@ a{color:var(--kf-fluo)}a:hover{color:#fff}
 .b-foot span{font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.7)}
 .b-foot b{font-weight:600;font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--kf-fluo)}
 
+.card.st{--ink:#1A0726;--ink2:rgba(26,7,38,.72);--plum:#5A2478;color:var(--ink);background:radial-gradient(70% 90% at 100% 0%,#F6FFB8 0%,rgba(246,255,184,0) 60%),radial-gradient(60% 70% at 0% 100%,#B9D80A 0%,rgba(185,216,10,0) 65%),linear-gradient(150deg,#EEFF7A 0%,#DCFF3E 50%,#C6EA1C 100%)}
+.card.st .guil{opacity:.14;background:repeating-radial-gradient(circle at 78% 120%,transparent 0 13px,rgba(26,7,38,.55) 13px 14px),repeating-radial-gradient(circle at 105% -20%,transparent 0 17px,rgba(26,7,38,.4) 17px 18px)}
+.card.st.kf-grain::after{opacity:.3}
+.card.st .edge{box-shadow:inset 0 0 0 1px rgba(26,7,38,.14),inset 0 1px 0 rgba(255,255,255,.6)}
+.card.st .f-hdr img,.card.st .seal img,.card.st .ghost,.card.st .ph-empty img{filter:brightness(0)}
+.card.st .ghost{opacity:.06}
+.card.st .f-hdr .t,.card.st .grid .v.f,.card.st .sl em{color:var(--plum)}
+.card.st .f-hdr i{background:linear-gradient(90deg,rgba(26,7,38,.5),rgba(26,7,38,.05))}
+.card.st .photo{box-shadow:0 0 0 1px rgba(26,7,38,.3),0 10px 24px rgba(80,90,0,.25)}
+.card.st .name{border-bottom-color:rgba(26,7,38,.22)}
+.card.st .k{color:var(--plum)}
+.card.st .seal{box-shadow:inset 0 0 0 1px rgba(26,7,38,.3)}
+.card.st .seal::before{background:conic-gradient(from 30deg,rgba(107,47,138,.55),rgba(232,121,249,.5),rgba(26,7,38,.25),rgba(107,47,138,.55),rgba(232,121,249,.5),rgba(107,47,138,.55));mix-blend-mode:multiply;opacity:.32}
+.card.st .seal::after{border-color:rgba(26,7,38,.35)}
+.card.st .strip.holo{background:linear-gradient(90deg,rgba(107,47,138,0) 0%,#6B2F8A 20%,#E879F9 45%,#6B2F8A 70%,rgba(107,47,138,0) 100%);mix-blend-mode:normal;opacity:.55}
+.card.st .f-foot .mono,.card.st .b-tag{color:var(--ink2)}
+.card.st .ph-empty{background:rgba(26,7,38,.07)}.card.st .photo image-slot{color:rgba(26,7,38,.55)}.card.st .photo{background:rgba(26,7,38,.05)}
+.card.st .b-row p{color:rgba(26,7,38,.82)}
+.card.st .speed i{background:linear-gradient(90deg,#4A1666 0%,rgba(74,22,102,.85) 40%,rgba(74,22,102,.4) 100%);box-shadow:none}
+.card.st .speed i.ref{background:linear-gradient(90deg,#1A0726 0%,rgba(26,7,38,.7) 40%,rgba(26,7,38,.3) 100%)}
+
 html,body{background:#120419;color:#fff;font-family:"Montserrat",sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .app{display:grid;grid-template-columns:300px minmax(0,1fr);min-height:100vh}
 .side{background:#1A0726;border-right:1px solid rgba(255,255,255,.1);padding:24px 20px;display:flex;flex-direction:column;gap:20px}
@@ -115,7 +136,7 @@ html,body{background:#120419;color:#fff;font-family:"Montserrat",sans-serif;-web
 <p class="hint">Drop a photo into the card's photo box. Drag inside it to reposition.</p>
 <div class="acts"><button class="btn del" id="del">Remove</button></div>
 </div>
-<div class="xp" style="margin-top:auto"><label>Export<select id="x-scope"><option value="one">This person</option><option value="driver">All drivers</option><option value="staff">All staff</option><option value="all">Everyone</option></select></label><label>Format<select id="x-fmt"><option value="bleed">Print service · CR80 + bleed</option><option value="trim">Print service · CR80 trim</option><option value="sheet">Driver copy · one page</option></select></label><button class="btn acc" id="pr">Download PDF</button><p class="hint" id="x-hint"></p></div>
+<div class="xp" style="margin-top:auto"><label>Export<select id="x-scope"><option value="one">This person</option><option value="driver">All drivers</option><option value="staff">All staff</option><option value="all">Everyone</option></select></label><label>Format<select id="x-fmt"><option value="pdf">Card only · PDF</option><option value="png">Card only · PNG images</option></select></label><button class="btn acc" id="pr">Download PDF</button><p class="hint" id="x-hint"></p></div>
 </aside>
 <main class="main" id="main"></main>
 </div>
@@ -123,26 +144,26 @@ html,body{background:#120419;color:#fff;font-family:"Montserrat",sans-serif;-web
 const KEY='kf-member-ids-v1';
 const seed=[{uid:'jude',first:'Jude',last:'Ellison',cls:'Micro',no:'KF-27-0001',valid:'12.2027',since:'2026',src:'assets/jude-id-photo.jpg'}];
 let list;try{list=JSON.parse(localStorage.getItem(KEY))||seed}catch(e){list=seed}
-list.forEach(m=>{m.kind=m.kind||'driver'});let kind='driver';let sel=list[0]?.uid;
+list.forEach(m=>{m.kind=m.kind||'driver'});{let n=list.reduce((a,m)=>Math.max(a,+(((m.no||'').match(/^KF-00-(\d{4})$/)||[0,0])[1])),3),ch=0;list.forEach(m=>{if(/^KF-ST-/i.test(m.no||'')){m.no='KF-00-'+String(++n).padStart(4,'0');ch=1}});if(ch)localStorage.setItem(KEY,JSON.stringify(list))}let kind='driver';let sel=list[0]?.uid;
 const isS=m=>m.kind==='staff';const shown=()=>list.filter(m=>m.kind===kind);
 const save=()=>localStorage.setItem(KEY,JSON.stringify(list));
 const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const mrz=m=>('KF<<'+(m.last||'').toUpperCase().replace(/[^A-Z]/g,'<')+'<'+(m.first||'').toUpperCase().replace(/[^A-Z]/g,'<')+'<<'+(m.no||'').replace(/\D/g,'').slice(-4)+'<<USA');
 const speed=code=>{const d=(code||'').replace(/\D/g,'').split('').map(Number);const c=d.reduce((a,b)=>a+b,0)%10;const bars=[100,...[...d,c].map(n=>30+7*n),100];return bars.map((w,i)=>'<i'+(i===0||i===bars.length-1?' class="ref"':'')+' style="width:'+w+'%"></i>').join('')};
-const front=(m,slot,ph)=>`<section class="card kf-grain" data-screen-label="ID Front · ${esc(m.first)} ${esc(m.last)}"><div class="ci"><div class="guil"></div><img class="ghost" src="assets/kf-mark.png" alt=""><div class="f-hdr"><img src="assets/kf-mark.png" alt="KF"><span class="b">KartFreedom</span><i></i><span class="t">${isS(m)?'Team staff':'Driver membership'}</span></div><div class="photo">${slot?`<image-slot id="kfid-photo-${m.uid}" placeholder="${isS(m)?'Staff':'Driver'} photo" shape="rect"${m.src?` src="${m.src}"`:''}></image-slot>`:(ph||'')}</div><div class="name"><span class="k">${isS(m)?'Staff':'Driver'}</span><div class="v" style="margin-top:6px">${esc(m.first)} ${esc(m.last)}</div></div><div class="grid"><div><span class="k">${isS(m)?'Staff no.':'Member no.'}</span><span class="v mono">${esc(m.no)}</span></div><div><span class="k">${isS(m)?'Role':'Class'}</span><span class="v">${esc(isS(m)?m.role:m.cls)}</span></div><div><span class="k">Valid thru</span><span class="v mono">${esc(m.valid)}</span></div><div><span class="k">${isS(m)?'Team since':'Member since'}</span><span class="v mono">${esc(m.since)}</span></div><div><span class="k">Date of birth</span><span class="v mono">${dob(m.dob)}</span></div></div><div class="seal"><img src="assets/kf-mark.png" alt=""></div><div class="strip holo"></div><div class="f-foot"><span class="mono">${esc(mrz(m))}</span><span class="mono">USA</span></div><div class="edge"></div></div></section>`;
-const back=m=>`<section class="card kf-grain" data-screen-label="ID Back · ${esc(m.first)} ${esc(m.last)}"><div class="ci"><div class="guil" style="transform:scaleX(-1)"></div><div class="b-strip"><div class="holo"></div></div><div class="b-body"><div class="b-row"><p>${isS(m)?'This card identifies the holder as KartFreedom team staff · '+esc(m.role)+'. Non-transferable.':'This card identifies the holder as a member of the KartFreedom driver development program. Non-transferable.'}</p></div><div class="b-row"><div><span class="k">${isS(m)?'Staff no.':'Member no.'}</span><span class="v mono" style="font-size:24px;letter-spacing:.06em">${esc(m.no)}</span></div><div><span class="k">Valid thru</span><span class="v mono" style="font-size:24px;letter-spacing:.06em">${esc(m.valid)}</span></div></div></div><div class="slog"><span class="k">Our motto</span><div class="sl">Racing is<br>in our <em>blood</em></div></div><div class="speed">${speed(m.no)}</div><div class="b-tag">@kartfreedom.us</div><div class="edge"></div></div></section>`;
+const front=(m,slot,ph)=>`<section class="card kf-grain${isS(m)?' st':''}" data-screen-label="ID Front · ${esc(m.first)} ${esc(m.last)}"><div class="ci"><div class="guil"></div><img class="ghost" src="assets/kf-mark.png" alt=""><div class="f-hdr"><img src="assets/kf-mark.png" alt="KF"><span class="b">KartFreedom</span><i></i><span class="t">${isS(m)?'Team staff':'Driver membership'}</span></div><div class="photo">${slot?`<image-slot id="kfid-photo-${m.uid}" placeholder="${isS(m)?'Staff':'Driver'} photo" shape="rect"${m.src?` src="${m.src}"`:''}></image-slot>`:(ph||'')}</div><div class="name"><span class="k">${isS(m)?'Staff':'Driver'}</span><div class="v" style="margin-top:6px">${esc(m.first)} ${esc(m.last)}</div></div><div class="grid"><div><span class="k">${isS(m)?'Staff no.':'Member no.'}</span><span class="v mono">${esc(m.no)}</span></div><div><span class="k">${isS(m)?'Role':'Class'}</span><span class="v">${esc(isS(m)?m.role:m.cls)}</span></div><div><span class="k">Valid thru</span><span class="v mono">${esc(m.valid)}</span></div><div><span class="k">${isS(m)?'Team since':'Member since'}</span><span class="v mono">${esc(m.since)}</span></div><div><span class="k">Date of birth</span><span class="v mono">${dob(m.dob)}</span></div></div><div class="seal"><img src="assets/kf-mark.png" alt=""></div><div class="strip holo"></div><div class="f-foot"><span class="mono">${esc(mrz(m))}</span><span class="mono">USA</span></div><div class="edge"></div></div></section>`;
+const back=m=>`<section class="card kf-grain${isS(m)?' st':''}" data-screen-label="ID Back · ${esc(m.first)} ${esc(m.last)}"><div class="ci"><div class="guil" style="transform:scaleX(-1)"></div><div class="b-strip"><div class="holo"></div></div><div class="b-body"><div class="b-row"><p>${isS(m)?'This card identifies the holder as KartFreedom team staff · '+esc(m.role)+'. Non-transferable.':'This card identifies the holder as a member of the KartFreedom driver development program. Non-transferable.'}</p></div><div class="b-row"><div><span class="k">${isS(m)?'Staff no.':'Member no.'}</span><span class="v mono" style="font-size:24px;letter-spacing:.06em">${esc(m.no)}</span></div><div><span class="k">Valid thru</span><span class="v mono" style="font-size:24px;letter-spacing:.06em">${esc(m.valid)}</span></div></div></div><div class="slog"><span class="k">Our motto</span><div class="sl">Racing is<br>in our <em>blood</em></div></div><div class="speed">${speed(m.no)}</div><div class="b-tag">@kartfreedom.us</div><div class="edge"></div></div></section>`;
 const cur=()=>shown().find(m=>m.uid===sel);
 const F=['first','last','cls','role','dob','no','valid','since'];const dob=s=>{const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(s||'');return m?m[2]+'.'+m[3]+'.'+m[1]:'—'};
 function fitScale(){const w=document.getElementById('main').clientWidth-64;return Math.min(.62,Math.max(.28,w>1340?(w-28)/2024:w/1012))}
 function fitText(root){root.querySelectorAll('.name .v,.grid .v').forEach(el=>{el.style.fontSize='';const max=el.parentElement.clientWidth;let fs=parseFloat(getComputedStyle(el).fontSize);while(el.scrollWidth>max&&fs>12){fs-=1;el.style.fontSize=fs+'px'}})}
 function renderMain(){const m=cur();const main=document.getElementById('main');if(!m){main.innerHTML='<p class="hint">Add '+(kind==='staff'?'a staff member':'a driver')+' to start.</p>';return}const s=fitScale();main.innerHTML=`<div class="pair" style="--s:${s}"><div><div class="cap">Front</div><div class="wrap">${front(m,true)}</div></div><div><div class="cap">Back</div><div class="wrap">${back(m)}</div></div></div>`;fitText(main)}
 function renderRoster(){document.querySelectorAll('#seg button').forEach(b=>b.classList.toggle('on',b.dataset.k===kind));document.getElementById('add').textContent=kind==='staff'?'+ Add staff':'+ Add driver';document.getElementById('l-role').style.display=kind==='staff'?'':'none';document.getElementById('l-cls').style.display=kind==='staff'?'none':'';document.getElementById('l-no').textContent=kind==='staff'?'Staff no.':'Member no.';document.getElementById('roster').innerHTML=shown().map(m=>`<button data-u="${m.uid}" class="${m.uid===sel?'on':''}"><span>${esc(m.first)} ${esc(m.last)}</span><small>${esc(m.no)}</small></button>`).join('');document.getElementById('form').style.display=cur()?'':'none';const m=cur();if(m)F.forEach(k=>{const el=document.getElementById('f-'+k);if(document.activeElement!==el)el.value=m[k]||''})}
-function nextNo(){const yr=new Date().getFullYear()%100+1;const n=shown().reduce((a,m)=>Math.max(a,+((m.no||'').match(/(\d{4})$/)||[0,0])[1]),0)+1;return (kind==='staff'?'KF-ST-':'KF-'+yr+'-')+String(n).padStart(4,'0')}
+function nextNo(){const yr=new Date().getFullYear()%100+1;const n=shown().reduce((a,m)=>Math.max(a,+((m.no||'').match(/(\d{4})$/)||[0,0])[1]),0)+1;return (kind==='staff'?'KF-00-':'KF-'+yr+'-')+String(kind==='staff'?Math.max(n,4):n).padStart(4,'0')}
 document.getElementById('roster').onclick=e=>{const b=e.target.closest('button');if(!b)return;sel=b.dataset.u;renderRoster();renderMain()};
 document.getElementById('add').onclick=()=>{const m={uid:'m'+Date.now().toString(36),kind,first:'New',last:kind==='staff'?'Staff':'Driver',cls:'Micro',role:'Coach',no:nextNo(),valid:'12.'+(new Date().getFullYear()+1),since:String(new Date().getFullYear())};list.push(m);sel=m.uid;save();renderRoster();renderMain();document.getElementById('f-first').select()};
 document.getElementById('del').onclick=()=>{const m=cur();if(!m||!confirm('Remove '+m.first+' '+m.last+'?'))return;list=list.filter(x=>x!==m);sel=shown()[0]?.uid;save();renderRoster();renderMain()};
 F.forEach(k=>document.getElementById('f-'+k).addEventListener('input',e=>{const m=cur();m[k]=e.target.value;save();renderRoster();renderMain()}));
-const XH={bleed:'3.625 × 2.375 in pages (CR80 + 1/8 in bleed), 600 dpi. One face per page: front, then back, for each person. Trim to 3.375 × 2.125 in.',trim:'3.375 × 2.125 in pages (CR80), 600 dpi. One face per page: front, then back, for each person.',sheet:'One Letter page per person with the front and back. Good for emailing to drivers.'};
+const XH={pdf:'Just the card: 3.375 × 2.125 in pages, rounded corners, transparent outside the card, 600 dpi. Front, then back, for each person.',png:'Just the card: one transparent PNG per side (2024 × 1276 px), rounded corners. Two files per person.'};
 const xf=document.getElementById('x-fmt'),xh=document.getElementById('x-hint');xf.onchange=()=>xh.textContent=XH[xf.value];xh.textContent=XH[xf.value];
 let SLOTS=null;
 async function slotState(){if(SLOTS)return SLOTS;try{const r=await fetch('.image-slots.state.json',{cache:'no-store'});SLOTS=r.ok?await r.json():{}}catch(e){SLOTS={}}return SLOTS}
@@ -155,31 +176,33 @@ async function photoFor(m){
  const im=await loadImg(src);if(!im)return '<div class="ph-empty"><img src="assets/kf-mark.png" alt=""></div>';
  const fw=230,fh=290,s=(v&&v.s)||1,base=Math.max(fw/im.naturalWidth,fh/im.naturalHeight),w=im.naturalWidth*base*s,hh=im.naturalHeight*base*s,cx=(50+((v&&v.x)||0))/100*fw,cy=(50+((v&&v.y)||0))/100*fh;
  return '<img src="'+src+'" alt="" style="position:absolute;left:'+(cx-w/2)+'px;top:'+(cy-hh/2)+'px;width:'+w+'px;height:'+hh+'px;max-width:none">'}
+let FONTCSS=null;
+const toData=u=>fetch(u).then(r=>r.blob()).then(b=>new Promise(res=>{const f=new FileReader();f.onload=()=>res(f.result);f.readAsDataURL(b)}));
+async function fontCSS(node){if(FONTCSS)return FONTCSS;let local='';try{local=await htmlToImage.getFontEmbedCSS(node)}catch(e){}
+ let g='';try{const href=[...document.querySelectorAll('link[href*="fonts.googleapis"]')].map(l=>l.href).concat('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap');for(const u of href){let css=await (await fetch(u)).text();css=css.split('/* ').filter(b=>b.startsWith('latin */')).map(b=>'/* '+b).join('');const urls=[...new Set(css.match(/url\((https:[^)]+)\)/g)||[])].map(x=>x.slice(4,-1));for(const fu of urls){css=css.split(fu).join(await toData(fu))}g+=css}}catch(e){console.warn('font embed',e)}
+ return FONTCSS=local+'\n'+g}
 document.getElementById('pr').onclick=async()=>{
  const btn=document.getElementById('pr'),scope=document.getElementById('x-scope').value,fmt=xf.value;
  const people=scope==='one'?[cur()].filter(Boolean):scope==='all'?list:list.filter(m=>m.kind===scope);
  if(!people.length){alert('Nobody to export.');return}
  if(!window.htmlToImage||!window.jspdf){alert('The PDF tools did not load. Check your connection and reload.');return}
  const lbl=btn.textContent;btn.disabled=true;
- const b=fmt==='bleed'?37.5:0,W=1012+2*b,H=638+2*b,sheet=fmt==='sheet';
- const pw=sheet?8.5:fmt==='bleed'?3.625:3.375,phh=sheet?11:fmt==='bleed'?2.375:2.125;
+ const W=1012,H=638,pw=3.375,phh=2.125,png=fmt==='png';
  const host=document.createElement('div');host.style.cssText='position:fixed;left:-40000px;top:0;width:'+W+'px';document.body.appendChild(host);
+ const dl=(url,name)=>{const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove()};
  try{
   await document.fonts.ready;
-  const pdf=new window.jspdf.jsPDF({unit:'in',format:sheet?'letter':[pw,phh],orientation:sheet?'portrait':'landscape',compress:true});let pages=0;
-  const add=()=>{if(pages++)pdf.addPage(sheet?'letter':[pw,phh],sheet?'portrait':'landscape')};
-  const opts={quality:.95,pixelRatio:2,width:W,height:H,backgroundColor:sheet?'#ffffff':'#1C0628',style:{left:'0',top:'0',margin:'0',transform:'none'}};
-  for(let i=0;i<people.length;i++){const m=people[i];btn.textContent='Preparing '+(i+1)+' / '+people.length+'…';
+  const pdf=png?null:new window.jspdf.jsPDF({unit:'in',format:[pw,phh],orientation:'landscape',compress:true});let pages=0;
+  const opts={pixelRatio:2,width:W,height:H,style:{left:'0',top:'0',margin:'0',transform:'none'}};
+  for(let i=0;i<people.length;i++){const m=people[i],nm=((m.first||'')+' '+(m.last||'')).trim();btn.textContent='Preparing '+(i+1)+' / '+people.length+'…';
    host.innerHTML='<div class="xw">'+front(m,false,await photoFor(m))+'</div><div class="xw">'+back(m)+'</div>';
-   host.querySelectorAll('.card').forEach(c=>{c.style.setProperty('--b',b+'px');c.classList.add(sheet?'x-round':'x-square')});
+   host.querySelectorAll('.card').forEach(c=>c.classList.add('x-round'));
    fitText(host);await Promise.all([...host.querySelectorAll('img')].map(x=>x.complete?0:Promise.race([new Promise(r=>{x.onload=x.onerror=r}),new Promise(r=>setTimeout(r,3000))])));
-   const faces=[...host.querySelectorAll('.card')];if(i===0)await htmlToImage.toJpeg(faces[0],{...opts,pixelRatio:.25});
-   const shots=[];for(const f of faces)shots.push(await htmlToImage.toJpeg(f,opts));
-   if(sheet){add();const cw=6.5,ch=cw*638/1012,x=1;pdf.setFont('helvetica','bold');pdf.setFontSize(10);pdf.setTextColor(40,10,60);pdf.text('KARTFREEDOM · '+(isS(m)?'STAFF ID':'MEMBER ID'),x,.75);pdf.setFont('helvetica','normal');pdf.setTextColor(110,100,120);pdf.text(((m.first||'')+' '+(m.last||'')).trim().toUpperCase()+'  ·  '+(m.no||''),x,.98);
-    pdf.setFontSize(8);pdf.text('FRONT',x,1.3);pdf.addImage(shots[0],'JPEG',x,1.4,cw,ch);pdf.text('BACK',x,1.4+ch+.45);pdf.addImage(shots[1],'JPEG',x,1.4+ch+.55,cw,ch)}
-   else shots.forEach(s=>{add();pdf.addImage(s,'JPEG',0,0,pw,phh)})}
-  const nm=scope==='one'?'KartFreedom ID - '+(people[0].first+' '+people[0].last).trim():'KartFreedom IDs - '+({driver:'Drivers',staff:'Staff',all:'Everyone'})[scope];
-  pdf.save(nm+(sheet?'':fmt==='bleed'?' (print, bleed)':' (print)')+'.pdf');
+   const faces=[...host.querySelectorAll('.card')];if(i===0){opts.fontEmbedCSS=await fontCSS(faces[0]);await htmlToImage.toPng(faces[0],{...opts,pixelRatio:.25})}
+   const shots=[];for(const f of faces)shots.push(await htmlToImage.toPng(f,opts));
+   if(png){dl(shots[0],'KartFreedom ID - '+nm+' - front.png');await new Promise(r=>setTimeout(r,400));dl(shots[1],'KartFreedom ID - '+nm+' - back.png');await new Promise(r=>setTimeout(r,400))}
+   else shots.forEach(s=>{if(pages++)pdf.addPage([pw,phh],'landscape');pdf.addImage(s,'PNG',0,0,pw,phh,undefined,'FAST')})}
+  if(!png){const nm=scope==='one'?'KartFreedom ID - '+(people[0].first+' '+people[0].last).trim():'KartFreedom IDs - '+({driver:'Drivers',staff:'Staff',all:'Everyone'})[scope];pdf.save(nm+'.pdf')}
  }catch(e){console.error(e);alert('Export failed: '+(e.message||e))}
  finally{host.remove();btn.disabled=false;btn.textContent=lbl}};
 document.getElementById('seg').onclick=e=>{const b=e.target.closest('button');if(!b)return;kind=b.dataset.k;sel=shown()[0]?.uid;renderRoster();renderMain()};
