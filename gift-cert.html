@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Gift certificate</title>
+<html lang="en"><head><script>(function(){var bad=function(n){if(n.nodeType!==1||n.id==="root"||n.id==="pages")return false;var c=n.className;c=c&&c.baseVal!==undefined?c.baseVal:(c||"");return /netlify/i.test(n.tagName+" "+(n.id||"")+" "+c+" "+(n.src||"")+" "+(n.getAttribute("data-netlify")!=null?"netlify":""))};var sweep=function(){document.querySelectorAll("html > *:not(head):not(body), body > *").forEach(function(n){if(bad(n))n.remove()})};new MutationObserver(sweep).observe(document.documentElement,{childList:true,subtree:true});document.addEventListener("DOMContentLoaded",sweep)})();</script><style>@media print{body>*:not(#pages):not(#root):not(script):not(style){display:none!important}}</style><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Gift certificate</title>
 <link rel="stylesheet" href="_ds/kartfreedom-design-system-a6b48bc5-0155-44d3-95c9-dc16f47d2786/tokens/fonts.css">
 <link rel="stylesheet" href="_ds/kartfreedom-design-system-a6b48bc5-0155-44d3-95c9-dc16f47d2786/tokens/brand.css">
 <link rel="stylesheet" href="_ds/kartfreedom-design-system-a6b48bc5-0155-44d3-95c9-dc16f47d2786/tokens/social.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Michroma&family=Mrs+Saint+Delafield&display=swap">
+<script src="https://unpkg.com/html-to-image@1.11.11/dist/html-to-image.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 a{color:var(--kf-fluo)}a:hover{color:#fff}
@@ -87,11 +88,11 @@ body.embed #pages{padding:0;gap:0;align-items:flex-start;zoom:var(--fit,1)}body.
 .iv .stub{background:rgba(24,6,31,.035)}.iv .stub .lb{color:rgba(24,6,31,.7)}
 .iv .spec{border-color:rgba(24,6,31,.2)}
 </style></head><body>
-<div class="bar"><div><b id="no"></b> <span id="sub"></span></div><button onclick="print()">Save as PDF</button></div>
+<div class="bar"><div><b id="no"></b> <span id="sub"></span></div><div style="display:flex;gap:10px"><button id="pngbtn" onclick="savePNG()" style="background:transparent;color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.4)">Save PNG</button><button onclick="print()">Save as PDF</button></div></div>
 <div id="pages"></div>
 <script>
 const PK={"lo206-1":{eng:"LO206",st:"4-stroke",d:1},"lo206-2":{eng:"LO206",st:"4-stroke",d:2},"ka100-1":{eng:"KA100",st:"2-stroke",d:1},"ka100-2":{eng:"KA100",st:"2-stroke",d:2}};
-const Q=new URLSearchParams(location.search),MODE=Q.has("print")?"print":Q.has("embed")?"embed":"view";
+const Q=new URLSearchParams(location.search),MODE=Q.has("png")?"png":Q.has("print")?"print":Q.has("embed")?"embed":"view";
 const esc=s=>String(s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const tks='<div class="grain"></div><div class="fr"></div><i class="tk a"></i><i class="tk b"></i><i class="tk c"></i><i class="tk d"></i><div class="hd"><img src="assets/kf-mark.png" alt=""><span>KartFreedom</span></div>';
 function front(d,p,iv){const two=p.d>1;return `<section class="gc${iv?" iv":""}"><div class="gnd"></div><div class="ph"><img src="assets/gift-kart.jpg" alt="" style="object-position:50% 60%;transform:scale(${iv?1.3:1.25});transform-origin:52% 62%"></div>${tks}
@@ -117,5 +118,22 @@ function fromHash(){try{return JSON.parse(decodeURIComponent(location.hash.slice
 if(MODE==="embed")document.body.classList.add("embed");
 kfRender(fromHash());addEventListener("hashchange",()=>kfRender(fromHash()));addEventListener("resize",fit);
 if(MODE==="print"){Promise.all([document.fonts.ready,...[...document.images].map(i=>i.complete?1:new Promise(r=>{i.onload=i.onerror=r}))]).then(()=>setTimeout(()=>print(),400));}
+
+const toData=u=>fetch(u).then(r=>r.blob()).then(b=>new Promise(res=>{const f=new FileReader();f.onload=()=>res(f.result);f.readAsDataURL(b)}));let FONTCSS=null;
+async function fontCSS(node){if(FONTCSS)return FONTCSS;let local='';try{local=await htmlToImage.getFontEmbedCSS(node)}catch(e){}
+ let g='';try{for(const l of document.querySelectorAll('link[href*="fonts.googleapis"]')){let css=await (await fetch(l.href)).text();css=css.split('/* ').filter(b=>b.startsWith('latin */')).map(b=>'/* '+b).join('');const urls=[...new Set(css.match(/url\((https:[^)]+)\)/g)||[])].map(x=>x.slice(4,-1));for(const fu of urls){css=css.split(fu).join(await toData(fu))}g+=css}}catch(e){console.warn('font embed',e)}
+ return FONTCSS=local+'\n'+g}
+const dl=(u,n)=>{const a=document.createElement('a');a.href=u;a.download=n;document.body.appendChild(a);a.click();a.remove()};
+async function kfPNG(){await document.fonts.ready;await Promise.all([...document.images].map(i=>i.complete?1:new Promise(r=>{i.onload=i.onerror=r})));const d=fromHash(),p=PK[d.pkg]||PK["lo206-1"],base='KartFreedom Gift Certificate - '+(d.no||'Blank '+p.eng+' '+p.d+' day'+(p.d>1?'s':''));const faces=[...document.querySelectorAll('#pages .gc')],w=faces[0].offsetWidth,h=faces[0].offsetHeight;const o={pixelRatio:1,width:w,height:h,style:{zoom:'1',margin:'0'},fontEmbedCSS:await fontCSS(faces[0])};await htmlToImage.toPng(faces[0],{...o,pixelRatio:.1});return [{url:await htmlToImage.toPng(faces[0],o),name:base+' - front.png'},{url:await htmlToImage.toPng(faces[1],o),name:base+' - back.png'}]}
+window.kfPNG=kfPNG;
+async function savePNG(){const b=document.getElementById('pngbtn');b.disabled=true;b.textContent='Preparing…';
+ try{await document.fonts.ready;const d=fromHash(),p=PK[d.pkg]||PK["lo206-1"],base='KartFreedom Gift Certificate - '+(d.no||'Blank '+p.eng+' '+p.d+' day'+(p.d>1?'s':''));
+  const faces=[...document.querySelectorAll('#pages .gc')],w=faces[0].offsetWidth,h=faces[0].offsetHeight;
+  const o={pixelRatio:1,width:w,height:h,style:{zoom:'1',margin:'0'},fontEmbedCSS:await fontCSS(faces[0])};
+  await htmlToImage.toPng(faces[0],{...o,pixelRatio:.1});
+  dl(await htmlToImage.toPng(faces[0],o),base+' - front.png');await new Promise(r=>setTimeout(r,500));
+  dl(await htmlToImage.toPng(faces[1],o),base+' - back.png');
+ }catch(e){console.error(e);alert('PNG export failed: '+e.message)}b.disabled=false;b.textContent='Save PNG';}
+if(MODE==="png"){Promise.all([document.fonts.ready,...[...document.images].map(i=>i.complete?1:new Promise(r=>{i.onload=i.onerror=r}))]).then(()=>setTimeout(savePNG,400));}
 </script>
 </body></html>

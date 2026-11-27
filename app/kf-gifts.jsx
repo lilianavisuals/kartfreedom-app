@@ -7,7 +7,18 @@ const kfGNext = (db, y) => Math.max(0, ...(db.gifts || []).filter(g => g.year ==
 const kfGState = g => { const n = (KF.gifts[g.pkg] || { d: 1 }).d, u = (g.days || []).filter(Boolean).length; return u === 0 ? "unused" : u >= n ? "used" : "partial"; };
 const kfGStateL = g => { const s = kfGState(g), n = KF.gifts[g.pkg].d; return s === "unused" ? "Unused" : s === "used" ? "Used" : (g.days || []).filter(Boolean).length + " of " + n + " used"; };
 const kfGURL = (g, mode) => "gift-cert.html?" + mode + "#" + encodeURIComponent(JSON.stringify({ no: g.no, pkg: g.pkg, ed: g.ed, to: g.to, from: g.from, issued: kfGDate(g.issued) }));
-const kfGPrint = g => window.open(kfGURL(g, "print"), "_blank");
+const kfGFrame = (url, fn) => { const fr = document.createElement("iframe"); fr.style.cssText = "position:fixed;left:-12000px;top:0;width:1000px;height:800px;border:0"; fr.src = url; fr.onload = () => setTimeout(() => fn(fr.contentWindow, () => setTimeout(() => fr.remove(), 60000)), 300); document.body.appendChild(fr); };
+const kfGDl = (u, n) => { const a = document.createElement("a"); a.href = u; a.download = n; document.body.appendChild(a); a.click(); a.remove(); };
+const kfGOut = (g, m) => kfGFrame(kfGURL(g, "view"), async (w, done) => { try { if (m === "png") { const fs = await w.kfPNG(); for (const x of fs) { kfGDl(x.url, x.name); await new Promise(r => setTimeout(r, 500)); } } else { await w.document.fonts.ready; w.focus(); w.print(); } } catch (e) { alert("Export failed: " + e.message); } done(); });
+const kfGPrint = g => kfGOut(g, "print");
+const kfGPrintBlank = (pkg, m) => kfGOut({ no: "", pkg, ed: "night", to: "", from: "", issued: "" }, m);
+function GiftBlank({ onClose }) {
+ return <div className="kf-stack g12">
+  <div className="kf-rowb"><span className="kf-lbl">Blank certificate</span><button type="button" className="kf-icbtn" onClick={onClose}><KIcon n="x"></KIcon></button></div>
+  <p className="kf-body sm">No number, names or date · fill in by hand. Not added to the list. PNG saves front and back.</p>
+  {Object.keys(KF.gifts).map(k => <div key={k} className="kf-rowb"><span className="kf-body sm">{kfGLabel(k)}</span><div className="kf-row"><button className="kf-btn solid auto sm" onClick={() => kfGPrintBlank(k, "png")}><KIcon n="dl" s={16}></KIcon>PNG</button><button className="kf-btn ghost auto sm" onClick={() => kfGPrintBlank(k, "print")}>PDF</button></div></div>)}
+ </div>;
+}
 const kfGBlank = () => ({ pkg: "lo206-1", ed: "night", to: "", from: "", issued: kfGToday(), buyer: { name: "", email: "", phone: "" }, ordered: kfGToday(), paid: "", days: [], note: "" });
 
 function GiftSheet({ ctx, id, onClose }) {
@@ -63,14 +74,14 @@ function GiftsTab({ ctx }) {
  return <div className="kf-pad">
   <div className="kf-stack"><span className="kf-eyebrow">Arrive & Drive</span><h1 className="kf-h1">Gift <em>cards</em></h1><p className="kf-lead">Create a certificate, download it as a PDF and keep track of when it's used. Numbers are issued in order automatically.</p></div>
   <div className="kf-card kf-stats"><Stat label="Issued" main={String(all.length)} decimal=""></Stat><Stat label="Unused" main={String(n("unused"))} decimal=""></Stat><Stat label="Partly used" main={String(n("partial"))} decimal=""></Stat><Stat label="Used" main={String(n("used"))} decimal=""></Stat></div>
-  <div className="kf-toolbar"><label className="kf-search"><KIcon n="search" s={18}></KIcon><input value={q} onChange={e => setQ(e.target.value)} placeholder="Search number, name or buyer"></input></label><div className="kf-seg">{[["all", "All"], ["open", "Not used"], ["used", "Used"]].map(([k, l]) => <button key={k} className={flt === k ? "on" : ""} onClick={() => setFlt(k)}>{l}</button>)}</div><button className="kf-btn solid auto" onClick={() => setEd("new")}><KIcon n="plus" s={16}></KIcon>New certificate</button></div>
+  <div className="kf-toolbar"><label className="kf-search"><KIcon n="search" s={18}></KIcon><input value={q} onChange={e => setQ(e.target.value)} placeholder="Search number, name or buyer"></input></label><div className="kf-seg">{[["all", "All"], ["open", "Not used"], ["used", "Used"]].map(([k, l]) => <button key={k} className={flt === k ? "on" : ""} onClick={() => setFlt(k)}>{l}</button>)}</div><button className="kf-btn ghost auto" onClick={() => setEd("blank")}><KIcon n="dl" s={16}></KIcon>Blank</button><button className="kf-btn solid auto" onClick={() => setEd("new")}><KIcon n="plus" s={16}></KIcon>New certificate</button></div>
   <div className="kf-card kf-list">{list.map(g => <div key={g.id} className="kf-li kf-gift">
    <div><b className="kf-mono">{g.no}</b><small>{g.to || "—"} · {kfGLabel(g.pkg)}</small><small className="kf-gmeta">Ordered by {(g.buyer && g.buyer.name) || "—"} · {kfGDate(g.ordered) || "—"}{(g.days || []).filter(Boolean).length ? " · used " + g.days.filter(Boolean).map(kfGDate).join(", ") : ""}</small></div>
    <span className={"kf-pill" + (kfGState(g) === "used" ? "" : " on")}>{kfGStateL(g)}</span>
    <button className="kf-icbtn" aria-label="Download PDF" title="Download PDF" onClick={() => kfGPrint(g)}><KIcon n="dl" s={18}></KIcon></button>
    <button className="kf-icbtn" aria-label="Edit" title="Edit · mark use" onClick={() => setEd(g.id)}><KIcon n="edit" s={18}></KIcon></button>
   </div>)}{!list.length && <p className="kf-hint" style={{ padding: "22px 0" }}>{all.length ? "No certificates match." : "No certificates yet. Tap New certificate to create the first one."}</p>}</div>
-  <KSheet open={!!ed} onClose={() => setEd(null)}>{ed && <GiftSheet key={ed} ctx={ctx} id={ed} onClose={() => setEd(null)}></GiftSheet>}</KSheet>
+  <KSheet open={!!ed} onClose={() => setEd(null)}>{ed === "blank" ? <GiftBlank onClose={() => setEd(null)}></GiftBlank> : ed && <GiftSheet key={ed} ctx={ctx} id={ed} onClose={() => setEd(null)}></GiftSheet>}</KSheet>
  </div>;
 }
 
